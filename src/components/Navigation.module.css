@@ -1,0 +1,37 @@
+.nav {
+  width: 1920px;
+  height: 100px;
+  display: flex;
+  gap: 937px;
+  padding-left: 120px;
+  padding-right: 120px;
+  /* background-color: green; */
+}
+.logoDiv {
+  /* background-color: red; */
+  /* width: 210px;
+  height: 38px;
+  padding-top: 31px; */
+}
+.logo {
+  width: 210px;
+  height: 38px;
+  margin-top: 31px;
+}
+.linksDiv {
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  /* background-color: red; */
+}
+.addEmployeeBtn {
+  border-radius: 5px;
+  border: 1px solid #8338ec;
+  padding: 10px 20px;
+  background-color: #fff;
+  font-family: FiraGo;
+  font-size: 16px;
+  font-weight: 400;
+  color: #212529;
+}
