@@ -58,11 +58,13 @@ function AddEmployeeModal({ show, onClose }) {
       <div className={styles.sectionDiv}>
         <div className={styles.mainCancelDiv}>
           <div className={styles.cancelDiv}>
-            <img
-              src={cancel}
-              alt="cancel button"
-              className={styles.cancelImg}
-            />
+            <button className={styles.cancelBtn}>
+              <img
+                src={cancel}
+                alt="cancel button"
+                className={styles.cancelImg}
+              />
+            </button>
           </div>
         </div>
         <div className={styles.addEmployeeDiv}>
@@ -142,7 +144,7 @@ function AddEmployeeModal({ show, onClose }) {
                   <img
                     src={Asterisk}
                     alt="Asterisk"
-                    className={styles.asterisk}
+                    className={styles.avatarImg}
                   />
                 </label>
 
@@ -200,16 +202,17 @@ function AddEmployeeModal({ show, onClose }) {
                   className={styles.departmentLabel}
                   htmlFor="department_id"
                 >
-                  <span className={styles.avatarSpan}>დეპარტამენტი</span>
-                  <img src={Asterisk} className={styles.avatarImg} />
+                  <span className={styles.departmentSpan}>დეპარტამენტი</span>
+                  <img src={Asterisk} className={styles.departmentImg} />
                 </label>
 
-                <div className="custom-select-wrapper">
+                <div className={styles.customSelect}>
                   <select
                     id="department_id"
                     required
                     name="department_id"
                     defaultValue=""
+                    className={styles.select}
                   >
                     <option value="" disabled hidden></option>
                     {departments.map((dept) => (

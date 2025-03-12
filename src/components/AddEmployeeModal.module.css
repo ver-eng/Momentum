@@ -68,6 +68,144 @@
   height: 40px;
 }
 
+ */
+.section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(13, 15, 16, 0.15);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.sectionDiv {
+  width: 913px;
+  height: 766px;
+  border-radius: 10px;
+  background-color: #fff;
+  position: absolute;
+  top: 118px;
+  left: 580px;
+  padding: 40px 50px 60px 50px;
+}
+.mainCancelDiv {
+  margin-bottom: 37px;
+}
+.cancelDiv {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.cancelBtn {
+  background-color: #fff;
+  border: none;
+}
+.cancelBtn:hover {
+  cursor: pointer;
+}
+.cancelImg {
+  width: 40px;
+  height: 40px;
+}
+
+.addEmployeeDiv {
+  margin-bottom: 45px;
+}
+.addEmployeePara {
+  text-align: center;
+  font-family: "FiraGO", sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  color: #212529;
+}
+.nameSurnameDiv {
+  display: flex;
+  gap: 45px;
+  margin-bottom: 45px;
+}
+.nameDiv,
+.surnameDiv {
+  display: flex;
+  flex-direction: column;
+}
+.nameLabel {
+}
+.nameSpan,
+.surnameSpan,
+.departmentSpan {
+  margin-bottom: 3px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #343a40;
+}
+.avatarSpan {
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #343a40;
+}
+.nameImg,
+.surnameImg,
+.avatarImg,
+.departmentImg {
+  width: 8px;
+  height: 8px;
+  margin-bottom: 4px;
+}
+.nameInput,
+.surnameInput {
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 6px;
+  width: 384px;
+  height: 42px;
+}
+.firstError,
+.secondError {
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+}
+.errorTick {
+  width: 16px;
+  height: 16px;
+}
+.errorSpan {
+  font-weight: 350;
+  font-size: 10px;
+  color: #6c757d;
+}
 .hiddenInput {
   display: none;
-} */
+}
+.avatarLabel {
+  margin-bottom: 8px;
+}
+.customFileUpload {
+  width: 813px;
+  height: 120px;
+  border-radius: 8px;
+  border: 1px dashed #ced4da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.department {
+  margin-top: 45px;
+  margin-bottom: 65px;
+}
+.customSelect {
+  background-color: red;
+}
+.select {
+  /* display: none; */
+}
