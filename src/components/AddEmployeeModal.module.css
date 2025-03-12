@@ -1,0 +1,73 @@
+/* .avatar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.avatarLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.asterisk {
+  width: 10px;
+  height: 10px;
+}
+
+.customFileUpload {
+  width: 800px;
+  height: 120px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.customFileUpload:hover {
+  border-color: #999;
+}
+
+.placeholderContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.placeholderIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.uploadText {
+  font-size: 16px;
+  color: #777;
+}
+
+.previewContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.previewImg {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.previewIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.hiddenInput {
+  display: none;
+} */

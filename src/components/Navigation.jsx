@@ -6,7 +6,7 @@ import { useState } from "react";
 import AddEmployeeModal from "./AddEmployeeModal";
 
 function Navigation() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   function handleOpenModal() {
     setShowModal(true);
   }
