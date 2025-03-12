@@ -10,3 +10,51 @@ body {
   width: 1920px;
   /* height: 1080px; */
 }
+
+@font-face {
+  font-family: "FiraGO";
+  src: url("/src/assets/fonts/FiraGO-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGO";
+  src: url("/src/assets/fonts/FiraGO-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGO";
+  src: url("/src/assets/fonts/FiraGO-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGO";
+  src: url("/src/assets/fonts/FiraGO-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "FiraGO";
+  src: url("/src/assets/fonts/FiraGO-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/src/assets/fonts/Inter/Inter-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  font-family: "FiraGO", sans-serif;
+}
+a {
+  text-decoration: none;
+}
