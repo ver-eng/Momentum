@@ -1,5 +1,5 @@
 import styles from "./AddEmployeeModal.module.css";
-import { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import Asterisk from "../assets/icons/Asterisk.svg";
 import check from "../assets/icons/check.svg";
@@ -18,8 +18,13 @@ const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
 
 function AddEmployeeModal({ show, onClose }) {
+  // const [isSelectOpen, setIsSelectOpen] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [departments, setDepartments] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const selectRef = useRef(null);
 
   useEffect(function () {
     async function fetchDepartments() {
@@ -34,6 +39,26 @@ function AddEmployeeModal({ show, onClose }) {
     fetchDepartments();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleOptionClick = (dept) => {
+    setSelectedOption(dept.name);
+    // onSelect(dept);
+    setIsOpen(false);
+  };
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -206,13 +231,17 @@ function AddEmployeeModal({ show, onClose }) {
                   <img src={Asterisk} className={styles.departmentImg} />
                 </label>
 
-                <div className={styles.customSelect}>
+                {/* <div className={styles.selectDiv}>
                   <select
                     id="department_id"
                     required
                     name="department_id"
                     defaultValue=""
-                    className={styles.select}
+                    className={`${styles.select} ${
+                      isSelectOpen ? styles.openSelect : ""
+                    }`}
+                    onClick={handleSelectClick}
+                    onBlur={handleBlur}
                   >
                     <option value="" disabled hidden></option>
                     {departments.map((dept) => (
@@ -221,7 +250,44 @@ function AddEmployeeModal({ show, onClose }) {
                       </option>
                     ))}
                   </select>
-                  <img src={arrowDown} alt="Arrow" className="arrow-icon" />
+                  <img
+                    src={arrowDown}
+                    alt="Arrow"
+                    className={`${styles.arrowIcon} ${
+                      isSelectOpen ? styles.rotate : ""
+                    }`}
+                  />
+                </div> */}
+                <div ref={selectRef} className={styles.selectDiv}>
+                  <div
+                    className={`${styles.select} ${
+                      isOpen ? styles.openSelect : ""
+                    }`}
+                    onClick={toggleDropdown}
+                  >
+                    <span>{selectedOption || ""}</span>
+                    <img
+                      src={arrowDown}
+                      alt="Arrow"
+                      className={`${styles.arrowIcon} ${
+                        isOpen ? styles.rotate : ""
+                      }`}
+                    />
+                  </div>
+
+                  {isOpen && (
+                    <ul className={styles.optionsList}>
+                      {departments.map((dept) => (
+                        <li
+                          key={dept.id}
+                          className={styles.optionItem}
+                          onClick={() => handleOptionClick(dept)}
+                        >
+                          {dept.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 <div className={styles.errorDiv}>
                   <div className={styles.firstError}>
@@ -233,13 +299,13 @@ function AddEmployeeModal({ show, onClose }) {
                 </div>
               </dev>
             </div>
-            <div>
-              <button type="button" className="cancel-button">
+            <div className={styles.buttonDiv}>
+              <button type="button" className={styles.cancelBtnBelow}>
                 გაუქმება
               </button>
               <button
                 type="submit"
-                className="submit-button"
+                className={styles.submitBtn}
                 // disabled={!isFormValid}
               >
                 დაამატე თანამშრომელი
@@ -253,152 +319,3 @@ function AddEmployeeModal({ show, onClose }) {
 }
 
 export default AddEmployeeModal;
-
-// function AddEmployeeModal({ show, onClose }) {
-//   const [name, setName] = useState("");
-//   const [lastname, setLastname] = useState("");
-//   const [image, setImage] = useState(null);
-//   const [department, setDepartment] = useState("");
-
-//   const [nameError, setNameError] = useState("");
-//   const [lastnameError, setLastnameError] = useState("");
-//   const [imageError, setImageError] = useState("");
-//   const [departmentError, setDepartmentError] = useState("");
-
-//   const [imagePreview, setImagePreview] = useState(null);
-
-//   const handleNameChange = (e) => {
-//     const value = e.target.value;
-//     setName(value);
-
-//     // Validate name: minimum 2 characters, maximum 255, Georgian or English letters only
-//     const nameRegex = /^[a-zA-Zა-ჰ]{2,255}$/;
-//     if (!nameRegex.test(value)) {
-//       setNameError(
-//         "Name must be 2-255 characters long and contain only Georgian or English letters."
-//       );
-//     } else {
-//       setNameError("");
-//     }
-//   };
-
-//   const handleLastnameChange = (e) => {
-//     const value = e.target.value;
-//     setLastname(value);
-
-//     // Validate lastname: minimum 2 characters, maximum 255, Georgian or English letters only
-//     const lastnameRegex = /^[a-zA-Zა-ჰ]{2,255}$/;
-//     if (!lastnameRegex.test(value)) {
-//       setLastnameError(
-//         "Lastname must be 2-255 characters long and contain only Georgian or English letters."
-//       );
-//     } else {
-//       setLastnameError("");
-//     }
-//   };
-
-//   const handleImageChange = (e) => {
-//     const file = e.target.files[0];
-//     if (!file) {
-//       setImageError("Image is required.");
-//       return;
-//     }
-//     // Validate file type and size
-//     if (!file.type.startsWith("image/") || file.size > 600 * 1024) {
-//       setImageError("Please upload a valid image file (less than 600KB).");
-//       return;
-//     }
-
-//     setImageError("");
-//     setImage(file);
-//     setImagePreview(URL.createObjectURL(file)); // Set image preview
-//   };
-
-//   const handleDepartmentChange = (e) => {
-//     const value = e.target.value;
-//     setDepartment(value);
-//     if (!value) {
-//       setDepartmentError("Department is required.");
-//     } else {
-//       setDepartmentError("");
-//     }
-//   };
-
-//   const handleDeleteImage = () => {
-//     setImage(null);
-//     setImagePreview(null);
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     // Final validation before submitting
-//     if (
-//       name &&
-//       lastname &&
-//       image &&
-//       department &&
-//       !nameError &&
-//       !lastnameError &&
-//       !imageError &&
-//       !departmentError
-//     ) {
-//       // Submit form
-//       console.log("Form submitted:", { name, lastname, image, department });
-//     }
-//   };
-//   if (!show) return;
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <div>
-//         <label>Name:</label>
-//         <input type="text" value={name} onChange={handleNameChange} required />
-//         {nameError && <p style={{ color: "red" }}>{nameError}</p>}
-//       </div>
-//       <div>
-//         <label>Lastname:</label>
-//         <input
-//           type="text"
-//           value={lastname}
-//           onChange={handleLastnameChange}
-//           required
-//         />
-//         {lastnameError && <p style={{ color: "red" }}>{lastnameError}</p>}
-//       </div>
-//       <div>
-//         <label>Image:</label>
-//         <input
-//           type="file"
-//           accept="image/*"
-//           onChange={handleImageChange}
-//           required
-//         />
-//         {imageError && <p style={{ color: "red" }}>{imageError}</p>}
-//         {imagePreview && (
-//           <div>
-//             <img
-//               src={imagePreview}
-//               alt="Image preview"
-//               style={{ maxWidth: "200px" }}
-//             />
-//             <button type="button" onClick={handleDeleteImage}>
-//               Delete Image
-//             </button>
-//           </div>
-//         )}
-//       </div>
-//       <div>
-//         <label>Department:</label>
-//         <input
-//           type="text"
-//           value={department}
-//           onChange={handleDepartmentChange}
-//           required
-//         />
-//         {departmentError && <p style={{ color: "red" }}>{departmentError}</p>}
-//       </div>
-//       <button type="submit">Submit</button>
-//     </form>
-//   );
-// }
-
-// export default AddEmployeeModal;
