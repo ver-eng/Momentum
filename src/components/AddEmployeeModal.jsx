@@ -5,32 +5,54 @@ import Asterisk from "../assets/icons/Asterisk.svg";
 import check from "../assets/icons/check.svg";
 import checkRed from "../assets/icons/check-red.svg";
 import checkGreen from "../assets/icons/check-green.svg";
-import arrowUp from "../assets/icons/arrow-up.svg";
+// import arrowUp from "../assets/icons/arrow-up.svg";
 import arrowDown from "../assets/icons/arrow-down.svg";
 import cancel from "../assets/icons/cancel.svg";
 import galleryExport from "../assets/icons/gallery-export.svg";
-import information from "../assets/icons/information.svg";
+// import information from "../assets/icons/information.svg";
 import deleteIcon from "../assets/icons/trash-2.svg";
 import axios from "axios";
 
 const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
+const EMPLOYEE_URL = "https://momentum.redberryinternship.ge/api/employees";
 
 function AddEmployeeModal({ show, onClose }) {
-  // const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
   const [departments, setDepartments] = useState([]);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+
+  const [imagePreview, setImagePreview] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const [selectedOption, setSelectedOption] = useState("");
+  const [deptID, setSeptId] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
+
+  const [nameErrors, setNameErrors] = useState({
+    length: null,
+    letters: null,
+  });
+  const [surnameErrors, setSurnameErrors] = useState({
+    length: null,
+    letters: null,
+  });
+  const [imgErrors, setImgErrors] = useState({
+    type: null,
+    size: null,
+  });
+  const [departError, setDepartError] = useState(null);
 
   useEffect(function () {
     async function fetchDepartments() {
       try {
         const response = await axios.get(DEPARTMENT_URL);
-        console.log(response.data);
+
         setDepartments(response.data);
       } catch (error) {
         console.log("error", error);
@@ -50,32 +72,157 @@ function AddEmployeeModal({ show, onClose }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  function validateLetters(value) {
+    return /^[ა-ჰa-zA-Z]+$/.test(value);
+  }
+  function validateLength(value) {
+    return value.length >= 2 && value.length <= 255;
+  }
+
+  function handleNameChange(e) {
+    const value = e.target.value;
+    setName(value);
+    validateName(value);
+    // setNameErrors((prevErrors) => ({
+    //   ...prevErrors,
+    //   length: validateLength(value),
+    //   letters: validateLetters(value),
+    // }));
+    console.log(nameErrors.length);
+  }
+  function validateName(value) {
+    setNameErrors((prevErrors) => ({
+      ...prevErrors,
+      length: validateLength(value),
+      letters: validateLetters(value),
+    }));
+  }
+  function handleSurnameChange(e) {
+    const value = e.target.value;
+    setSurname(value);
+
+    setSurnameErrors((prevErrors) => ({
+      ...prevErrors,
+      length: validateLength(value),
+      letters: validateLetters(value),
+    }));
+  }
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
 
   const handleOptionClick = (dept) => {
     setSelectedOption(dept.name);
-    // onSelect(dept);
+    setSeptId(dept.id);
+    setDepartError(true);
     setIsOpen(false);
   };
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      alert("Please upload an image file!");
+  function handleImgChange(e) {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) {
       return;
     }
+    const isImage = selectedFile.type.startsWith("image/");
+    const maxSize = 650 * 1024;
+    const isValidSize = selectedFile.size <= maxSize;
+    // console.log(selectedFile);
+    // console.log(isImage);
+    // console.log(isValidSize);
+    setImgErrors((prev) => ({ ...prev, type: isImage, size: isValidSize }));
+    console.log(imgErrors);
 
-    if (file.size > 600 * 1024) {
-      alert("Image must be smaller than 600KB");
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+      setFile(selectedFile);
+    };
+    reader.readAsDataURL(selectedFile);
+  }
+  function handleDeleteImage() {
+    setImagePreview(null);
+    setFile(null);
+    setImgErrors((prev) => ({ ...prev, type: null, size: null }));
+
+    const input = document.getElementById("avatar");
+    if (input) input.value = "";
+  }
+  function isFormValid() {
+    const isNameValid = nameErrors.length && nameErrors.letters;
+    if (!isNameValid) {
+      setNameErrors((prevErrors) => ({
+        ...prevErrors,
+        length: false,
+        letters: false,
+      }));
+      setName("");
+    }
+    const isSurnameValid = surnameErrors.length && surnameErrors.letters;
+    if (!isSurnameValid) {
+      setSurnameErrors((prevErrors) => ({
+        ...prevErrors,
+        length: false,
+        letters: false,
+      }));
+      setSurname("");
+    }
+    const isImgValid = imgErrors.type && imgErrors.size;
+    if (!isImgValid) {
+      handleDeleteImage();
+      setImgErrors((prev) => ({ ...prev, type: false, size: false }));
+    }
+    const isDepartmentSelected = selectedOption.length !== 0;
+    if (!isDepartmentSelected) {
+      setDepartError(false);
+    }
+    return (
+      isNameValid &&
+      isSurnameValid &&
+      isImgValid &&
+      isDepartmentSelected &&
+      file !== null
+    );
+  }
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    if (!isFormValid()) {
       return;
     }
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("surname", surname);
+    formData.append("department_id", deptID);
+    formData.append("avatar", file);
 
-    const previewURL = URL.createObjectURL(file);
-    setImagePreview(previewURL);
-  };
+    try {
+      const response = await axios.post(EMPLOYEE_URL, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${API_TOKEN}`,
+        },
+      });
+
+      console.log("Success:", response.data);
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  function handleCloseModal() {
+    onClose();
+    setName("");
+    setSurname("");
+    setSelectedOption("");
+    setSeptId(null);
+    setFile(null);
+    setImagePreview(null);
+
+    handleDeleteImage();
+
+    setNameErrors({ length: null, letters: null });
+    setSurnameErrors({ length: null, letters: null });
+    setImgErrors({ type: null, size: null });
+    setDepartError(null);
+  }
 
   if (!show) return;
   return (
@@ -83,7 +230,7 @@ function AddEmployeeModal({ show, onClose }) {
       <div className={styles.sectionDiv}>
         <div className={styles.mainCancelDiv}>
           <div className={styles.cancelDiv}>
-            <button className={styles.cancelBtn}>
+            <button className={styles.cancelBtn} onClick={handleCloseModal}>
               <img
                 src={cancel}
                 alt="cancel button"
@@ -109,17 +256,52 @@ function AddEmployeeModal({ show, onClose }) {
                   type="text"
                   required
                   className={styles.nameInput}
+                  value={name}
+                  onChange={handleNameChange}
                 />
                 <div className={styles.errorDiv}>
                   <div className={styles.firstError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        nameErrors.length === null
+                          ? check
+                          : nameErrors.length
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        nameErrors.length === null
+                          ? styles.errorSpanOriginal
+                          : nameErrors.length
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       მინიმუმ 2, მაქსიმუმ 255 სიმბოლო
                     </span>
                   </div>
                   <div className={styles.secondError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        nameErrors.letters === null
+                          ? check
+                          : nameErrors.letters
+                          ? checkGreen
+                          : checkRed
+                      }
+                    />
+                    <span
+                      className={
+                        nameErrors.letters === null
+                          ? styles.errorSpanOriginal
+                          : nameErrors.letters
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       მხოლოდ ქართული ან ლათინური სიმბოლოები
                     </span>
                   </div>
@@ -136,32 +318,60 @@ function AddEmployeeModal({ show, onClose }) {
                   type="text"
                   required
                   className={styles.surnameInput}
+                  value={surname}
+                  onChange={handleSurnameChange}
                 />
                 <div className={styles.errorDiv}>
                   <div className={styles.firstError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        surnameErrors.length === null
+                          ? check
+                          : surnameErrors.length
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        surnameErrors.length === null
+                          ? styles.errorSpanOriginal
+                          : surnameErrors.length
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       მინიმუმ 2, მაქსიმუმ 255 სიმბოლო
                     </span>
                   </div>
                   <div className={styles.secondError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        surnameErrors.letters === null
+                          ? check
+                          : surnameErrors.letters
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        surnameErrors.letters === null
+                          ? styles.errorSpanOriginal
+                          : surnameErrors.letters
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       მხოლოდ ქართული ან ლათინური სიმბოლოები
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <div className={styles.avatar}>
-              <div>
-                <label className={styles.avatarLabel} for="avatar">
-                  <span className={styles.avatarSpan}>ავატარი</span>
-                  <img src={Asterisk} className={styles.avatarImg} />
-                </label>
-                <input type="file" accept="image/*" required />
-              </div>
-            </div> */}
+
             <div className={styles.avatar}>
               <div>
                 <label htmlFor="avatar" className={styles.avatarLabel}>
@@ -174,46 +384,102 @@ function AddEmployeeModal({ show, onClose }) {
                 </label>
 
                 <div className={styles.customFileUpload}>
-                  <div className={styles.previewContainer}>
-                    <img
-                      src={imagePreview}
-                      alt="Uploaded Photo"
-                      className={styles.previewImg}
-                    />
-                    <img
-                      src={deleteIcon}
-                      alt="Delete Icon"
-                      className={styles.previewIcon}
-                    />
-                  </div>
+                  {imagePreview ? (
+                    <div className={styles.previewContainer}>
+                      <img
+                        src={imagePreview}
+                        alt="Uploaded Photo"
+                        className={styles.previewImg}
+                      />
 
-                  <div className={styles.placeholderContainer}>
-                    <img
-                      src={galleryExport}
-                      alt="Upload photo Icon"
-                      className={styles.placeholderIcon}
-                    />
-                    <span className={styles.uploadText}>ატვირთე ფოტო</span>
-                  </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteImage();
+                        }}
+                        className={styles.deleteButton}
+                      >
+                        <img
+                          src={deleteIcon}
+                          alt="Delete Icon"
+                          className={styles.deleteIcon}
+                        />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className={styles.beforeUploadContainer}>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          document.getElementById("avatar").click();
+                        }}
+                        className={styles.uploadButton}
+                      >
+                        <img
+                          src={galleryExport}
+                          alt="Upload photo Icon"
+                          className={styles.beforeUploadIcon}
+                        />
+                      </button>
+                      <span className={styles.uploadText}>ატვირთე ფოტო</span>
+                    </div>
+                  )}
                 </div>
 
                 <input
                   id="avatar"
                   type="file"
-                  accept="image/*"
+                  // accept="image/*"
                   className={styles.hiddenInput}
                   required
+                  onChange={handleImgChange}
                 />
                 <div className={styles.errorDiv}>
                   <div className={styles.firstError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        imgErrors.type === null
+                          ? check
+                          : imgErrors.type
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        imgErrors.type === null
+                          ? styles.errorSpanOriginal
+                          : imgErrors.type
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       ფაილი უნდა იყოს სურათი
                     </span>
                   </div>
                   <div className={styles.secondError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        imgErrors.size === null
+                          ? check
+                          : imgErrors.size
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        imgErrors.size === null
+                          ? styles.errorSpanOriginal
+                          : imgErrors.size
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       მაქსიმუმ 600kb ზომაში
                     </span>
                   </div>
@@ -281,7 +547,7 @@ function AddEmployeeModal({ show, onClose }) {
                         <li
                           key={dept.id}
                           className={styles.optionItem}
-                          onClick={() => handleOptionClick(dept)}
+                          onClick={() => handleOptionClick(dept, dept.id)}
                         >
                           {dept.name}
                         </li>
@@ -291,8 +557,25 @@ function AddEmployeeModal({ show, onClose }) {
                 </div>
                 <div className={styles.errorDiv}>
                   <div className={styles.firstError}>
-                    <img src={check} className={styles.errorTick} />
-                    <span className={styles.errorSpan}>
+                    <img
+                      src={
+                        departError === null
+                          ? check
+                          : departError
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        departError === null
+                          ? styles.errorSpanOriginal
+                          : departError
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
                       აირჩიე დეპარტამენტი
                     </span>
                   </div>
@@ -300,13 +583,17 @@ function AddEmployeeModal({ show, onClose }) {
               </dev>
             </div>
             <div className={styles.buttonDiv}>
-              <button type="button" className={styles.cancelBtnBelow}>
+              <button
+                className={styles.cancelBtnBelow}
+                onClick={handleCloseModal}
+              >
                 გაუქმება
               </button>
               <button
                 type="submit"
                 className={styles.submitBtn}
                 // disabled={!isFormValid}
+                onClick={handleFormSubmit}
               >
                 დაამატე თანამშრომელი
               </button>
