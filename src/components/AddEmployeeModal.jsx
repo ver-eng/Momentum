@@ -226,8 +226,8 @@ function AddEmployeeModal({ show, onClose }) {
 
   if (!show) return;
   return (
-    <section className={styles.section}>
-      <div className={styles.sectionDiv}>
+    <section className={styles.section} onClick={handleCloseModal}>
+      <div className={styles.sectionDiv} onClick={(e) => e.stopPropagation()}>
         <div className={styles.mainCancelDiv}>
           <div className={styles.cancelDiv}>
             <button className={styles.cancelBtn} onClick={handleCloseModal}>
