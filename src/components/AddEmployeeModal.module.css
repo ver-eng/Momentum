@@ -65,6 +65,7 @@
 .nameSpan,
 .surnameSpan,
 .departmentSpan {
+  display: inline-block;
   margin-bottom: 3px;
   font-weight: 500;
   font-size: 14px;
@@ -94,6 +95,10 @@
   margin-bottom: 6px;
   width: 384px;
   height: 42px;
+  font-weight: 350;
+  font-size: 14px;
+  line-height: 100%;
+  color: #212529;
 }
 .nameInput:focus,
 .surnameInput:focus {
@@ -167,7 +172,9 @@
 }
 
 .openSelect {
-  border: 1px solid #ced4da;
+  border: 1px solid #8338ec;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
 }
 
 .arrowIcon {
@@ -185,7 +192,7 @@
   transform: translateY(-50%) rotate(180deg);
 }
 
-.optionsList {
+/* .optionsList {
   position: absolute;
   top: 100%;
   left: 0;
@@ -196,9 +203,21 @@
   background-color: white;
   border: 1px solid #8338ec;
   border-radius: 5px;
-  /* max-height: 200px; */
-  /* overflow-y: auto; */
   z-index: 10;
+} */
+.optionsList {
+  border: 1px solid #8338ec;
+  z-index: 10;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding: 0 14px;
+  list-style: none;
+  background-color: white;
+  border: 1px solid #8338ec;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
 }
 
 .optionItem {

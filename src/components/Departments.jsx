@@ -1,99 +1,94 @@
 import styles from "./Departments.module.css";
 import Asterisk from "../assets/icons/Asterisk.svg";
+import { useEffect, useRef, useState } from "react";
+
 // import check from "../assets/icons/check.svg";
 // import checkRed from "../assets/icons/check-red.svg";
 // import checkGreen from "../assets/icons/check-green.svg";
 // import arrowDown from "../assets/icons/arrow-down.svg";
+import arrowDown from "../assets/icons/arrow-down.svg";
+import axios from "axios";
+
+const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
+const BASE_URL = `https://momentum.redberryinternship.ge/api`;
+const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
 
 function Depatments() {
+  const selectRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [deptID, setSeptId] = useState(null);
+  const [departError, setDepartError] = useState(null);
+  useEffect(function () {
+    async function fetchDepartments() {
+      try {
+        const response = await axios.get(DEPARTMENT_URL);
+
+        setDepartments(response.data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+    fetchDepartments();
+  }, []);
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
+  const handleOptionClick = (dept) => {
+    setSelectedOption(dept.name);
+    setSeptId(dept.id);
+    setDepartError(true);
+    setIsOpen(false);
+  };
+
   return (
     <div className={styles.department}>
-      <dev className={styles.departmentInnerDiv}>
-        <label className={styles.departmentLabel} htmlFor="department_id">
+      <div className={styles.departmentInnerDiv}>
+        <div className={styles.departmentLabel}>
           <span className={styles.departmentSpan}>დეპარტამენტი</span>
           <img src={Asterisk} className={styles.departmentImg} />
-        </label>
+        </div>
 
-        {/* <div className={styles.selectDiv}>
-                    <select
-                      id="department_id"
-                      required
-                      name="department_id"
-                      defaultValue=""
-                      className={`${styles.select} ${
-                        isSelectOpen ? styles.openSelect : ""
-                      }`}
-                      onClick={handleSelectClick}
-                      onBlur={handleBlur}
-                    >
-                      <option value="" disabled hidden></option>
-                      {departments.map((dept) => (
-                        <option key={dept.id} value={dept.id}>
-                          {dept.name}
-                        </option>
-                      ))}
-                    </select>
-                    <img
-                      src={arrowDown}
-                      alt="Arrow"
-                      className={`${styles.arrowIcon} ${
-                        isSelectOpen ? styles.rotate : ""
-                      }`}
-                    />
-                  </div> */}
-        {/* <div ref={selectRef} className={styles.selectDiv}>
+        <div ref={selectRef} className={styles.selectDiv}>
           <div
             className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
             onClick={toggleDropdown}
           >
-            <span>{selectedOption || ""}</span>
+            <p className={styles.selectTitle}>
+              {/* {selectedOption || "ადმინისტრაციის დეპარტამენტი"} */}
+              {selectedOption ||
+                (departments.length > 0
+                  ? departments[0].name
+                  : "ადმინისტრაციის დეპარტამენტი")}
+              {/* {selectedOption
+                ? selectedOption.name
+                : departments.length > 0
+                ? departments[0].name
+                : "ადმინისტრაციის დეპარტამენტი"} */}
+            </p>
             <img
               src={arrowDown}
               alt="Arrow"
               className={`${styles.arrowIcon} ${isOpen ? styles.rotate : ""}`}
             />
-          </div> */}
+          </div>
 
-        {/* {isOpen && (
+          {isOpen && (
             <ul className={styles.optionsList}>
-              {departments.map((dept) => (
+              {departments.map((eachDept) => (
                 <li
-                  key={dept.id}
+                  key={eachDept.id}
                   className={styles.optionItem}
-                  onClick={() => handleOptionClick(dept, dept.id)}
+                  onClick={() => handleOptionClick(eachDept, eachDept.id)}
                 >
-                  {dept.name}
+                  {eachDept.name}
                 </li>
               ))}
             </ul>
-          )} */}
-        {/* </div> */}
-        <div className={styles.errorDiv}>
-          <div className={styles.firstError}>
-            <img
-              // src={
-              //   departError === null
-              //     ? check
-              //     : departError
-              //     ? checkGreen
-              //     : checkRed
-              // }
-              className={styles.errorTick}
-            />
-            <span
-            // className={
-            //   departError === null
-            //     ? styles.errorSpanOriginal
-            //     : departError
-            //     ? styles.errorSpanGreen
-            //     : styles.errorSpanRed
-            // }
-            >
-              აირჩიე დეპარტამენტი
-            </span>
-          </div>
+          )}
         </div>
-      </dev>
+      </div>
     </div>
   );
 }

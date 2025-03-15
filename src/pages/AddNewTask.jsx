@@ -9,8 +9,13 @@ import ResponsibleEmployee from "../components/ResponsibleEmployee";
 import Title from "../components/Title";
 
 import Deadline from "../components/Deadline";
+import { useState } from "react";
 
 function AddNewTask() {
+  const [isOpen, setIsOpen] = useState(false);
+  function toggleDropdown() {
+    setIsOpen((prev) => !prev);
+  }
   return (
     <main>
       <Navigation />
@@ -32,8 +37,16 @@ function AddNewTask() {
                 </div>
                 <div className={styles.eachSectionDiv}>
                   <div className={styles.priorityStatusDiv}>
-                    <Priority />
-                    <Status />
+                    <Priority
+                      toggleDropdown={toggleDropdown}
+                      isOpen={isOpen}
+                      setIsOpen={setIsOpen}
+                    />
+                    <Status
+                      toggleDropdown={toggleDropdown}
+                      isOpen={isOpen}
+                      setIsOpen={setIsOpen}
+                    />
                   </div>
                   <div>
                     <Deadline />

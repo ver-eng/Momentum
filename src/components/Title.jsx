@@ -20,7 +20,7 @@ function Title() {
       />
       <div className={styles.errorDiv}>
         <div className={styles.firstError}>
-          <img
+          {/* <img
             src={check}
             // src={
             //   nameErrors.length === null
@@ -30,21 +30,22 @@ function Title() {
             //     : checkRed
             // }
             className={styles.errorTick}
-          />
-          <span
-          // className={
-          //   nameErrors.length === null
-          //     ? styles.errorSpanOriginal
-          //     : nameErrors.length
-          //     ? styles.errorSpanGreen
-          //     : styles.errorSpanRed
-          // }
+          /> */}
+          <p
+            className={styles.errorSpanOriginal}
+            // className={
+            //   nameErrors.length === null
+            //     ? styles.errorSpanOriginal
+            //     : nameErrors.length
+            //     ? styles.errorSpanGreen
+            //     : styles.errorSpanRed
+            // }
           >
             მინიმუმ 3 სიმბოლო
-          </span>
+          </p>
         </div>
         <div className={styles.secondError}>
-          <img
+          {/* <img
             src={check}
             // src={
             //   nameErrors.letters === null
@@ -53,18 +54,19 @@ function Title() {
             //     ? checkGreen
             //     : checkRed
             // }
-          />
-          <span
-          // className={
-          //   nameErrors.letters === null
-          //     ? styles.errorSpanOriginal
-          //     : nameErrors.letters
-          //     ? styles.errorSpanGreen
-          //     : styles.errorSpanRed
-          // }
+          /> */}
+          <p
+            className={styles.errorSpanOriginal}
+            // className={
+            //   nameErrors.letters === null
+            //     ? styles.errorSpanOriginal
+            //     : nameErrors.letters
+            //     ? styles.errorSpanGreen
+            //     : styles.errorSpanRed
+            // }
           >
             მაქსიმუმ 255 სიმბოლო
-          </span>
+          </p>
         </div>
       </div>
     </div>

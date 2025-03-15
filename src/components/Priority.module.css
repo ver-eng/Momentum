@@ -1,0 +1,91 @@
+.department {
+}
+.departmentInnerDiv {
+}
+.departmentLabel {
+  margin-bottom: 6px;
+}
+.departmentSpan {
+  font-weight: 400;
+  font-size: 16px;
+  color: #343a40;
+  line-height: 100%;
+}
+.departmentImg {
+  width: 8px;
+  height: 8px;
+  margin-bottom: 4px;
+}
+.selectDiv {
+  position: relative;
+}
+.select {
+  width: 259px;
+  height: 46px;
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  background-color: #fff;
+}
+.select:hover {
+  cursor: pointer;
+}
+.openSelect {
+  border: 1px solid #8338ec;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+.selectTitle {
+  width: 498px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #0d0f10;
+  display: flex;
+  justify-content: flex-start;
+  gap: 6px;
+  align-items: center;
+}
+.priorityIcon {
+  width: 16px;
+  height: 18px;
+}
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.1s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.optionsList {
+  border: 1px solid #8338ec;
+  z-index: 10;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  background-color: white;
+  border: 1px solid #8338ec;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+.optionItem {
+  padding: 14.5px 14px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #0d0f10;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+.optionItem:hover {
+  cursor: pointer;
+  background-color: rgba(248, 249, 250, 1);
+}

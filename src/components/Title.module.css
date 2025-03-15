@@ -1,0 +1,63 @@
+.nameDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.nameLabel {
+  margin-bottom: 6px;
+}
+.nameSpan {
+  font-weight: 400;
+  font-size: 16px;
+  color: #343a40;
+}
+.nameImg {
+  width: 8px;
+  height: 8px;
+  margin-bottom: 4px;
+}
+.nameInput {
+  margin-bottom: 4px;
+  border-radius: 5px;
+  border: 1px solid rgba(222, 226, 230, 1);
+  outline: none;
+  background-color: #fff;
+  padding: 14px;
+  width: 550px;
+  height: 45px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 100%;
+  color: #0d0f10;
+}
+/* .errorTick {
+  width: 16px;
+  height: 16px;
+} */
+.errorDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+/* .firstError,
+.secondError {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px;
+} */
+.errorSpanOriginal {
+  font-weight: 350;
+  font-size: 10px;
+  color: #6c757d;
+}
+.errorSpanRed {
+  font-weight: 350;
+  font-size: 10px;
+  color: #fa4d4d;
+}
+.errorSpanGreen {
+  font-weight: 350;
+  font-size: 10px;
+  color: #08a508;
+}
