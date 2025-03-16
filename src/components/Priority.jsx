@@ -15,9 +15,10 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const PRIORITY_URL = "https://momentum.redberryinternship.ge/api/priorities";
 
-function Priority() {
+function Priority({ openSelect, handleSelectOpen }) {
+  const isOpen = openSelect === "priority";
   const selectRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState({ name: "", icon: "" });
   const [priorities, setPriorities] = useState([]);
   const [priorityID, setPriorityID] = useState(null);
@@ -34,9 +35,9 @@ function Priority() {
     }
     fetchDepartments();
   }, []);
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
+  // const toggleDropdown = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
   const handleOptionClick = (priority) => {
     setSelectedOption((prev) => ({
       ...prev,
@@ -46,11 +47,12 @@ function Priority() {
     console.log(selectedOption);
     setPriorityID(priority.id);
     setPriorityError(true);
-    setIsOpen(false);
+    // setIsOpen(false);
+    handleSelectOpen(null);
   };
 
   return (
-    <div className={styles.department}>
+    <div className={`${styles.department} customSelect`}>
       <div className={styles.departmentInnerDiv}>
         <div className={styles.departmentLabel}>
           <span className={styles.departmentSpan}>პრიორიტეტი</span>
@@ -60,7 +62,7 @@ function Priority() {
         <div ref={selectRef} className={styles.selectDiv}>
           <div
             className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
-            onClick={toggleDropdown}
+            onClick={() => handleSelectOpen("priority")}
           >
             <div className={styles.selectTitle}>
               {selectedOption.name ? (

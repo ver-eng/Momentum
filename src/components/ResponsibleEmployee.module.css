@@ -1,0 +1,146 @@
+.department {
+}
+.departmentInnerDiv {
+}
+.departmentLabel {
+  margin-bottom: 6px;
+}
+.departmentSpan {
+  font-weight: 400;
+  font-size: 16px;
+  color: #343a40;
+  line-height: 100%;
+}
+.inactiveDepartmentSpan {
+  color: #adb5bd;
+}
+.departmentImg {
+  width: 8px;
+  height: 8px;
+  margin-bottom: 4px;
+}
+.selectDiv {
+  position: relative;
+}
+.select {
+  width: 550px;
+  height: 45px;
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background-color: #fff;
+}
+.select:hover {
+  cursor: pointer;
+}
+.openSelect {
+  border: 1px solid #8338ec;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+.selectTitle {
+  width: 498px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #0d0f10;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.1s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+.optionsList {
+  max-height: 278px;
+  overflow-y: auto;
+  border: 1px solid #8338ec;
+  z-index: 10;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  /* padding: 0 14px; */
+  list-style: none;
+  background-color: white;
+  border: 1px solid #8338ec;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+}
+.optionItem {
+  padding: 14.5px 14px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #0d0f10;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+}
+.optionItem:hover {
+  cursor: pointer;
+  background-color: rgba(248, 249, 250, 1);
+}
+.displayIconDiv {
+}
+.displayIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.displayPara {
+  font-weight: 300;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0d0f10;
+}
+.avatarIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+.nameSurname {
+}
+.addEmployeeIcon {
+}
+.addEmployeeBtn {
+  background-color: inherit;
+  border: none;
+  color: #8338ec;
+  font-weight: 400;
+  font-size: 16px;
+}
+.addEmployeeBtn:hover {
+  cursor: pointer;
+}
+.addEmployeeLi {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+.plus {
+  color: #8338ec;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 14px;
+}
+
+.plusDiv {
+  border: 1px solid #8338ec;
+  border-radius: 30px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

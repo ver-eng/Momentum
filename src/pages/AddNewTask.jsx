@@ -1,4 +1,5 @@
 import styles from "./AddNewTask.module.css";
+import { useEffect, useState } from "react";
 
 import Depatments from "../components/Departments";
 import Description from "../components/Description";
@@ -7,15 +8,31 @@ import Priority from "../components/Priority";
 import Status from "../components/Status";
 import ResponsibleEmployee from "../components/ResponsibleEmployee";
 import Title from "../components/Title";
-
 import Deadline from "../components/Deadline";
-import { useState } from "react";
 
 function AddNewTask() {
-  const [isOpen, setIsOpen] = useState(false);
-  function toggleDropdown() {
-    setIsOpen((prev) => !prev);
+  const [openSelect, setOpenSelect] = useState(null);
+
+  function handleSelectOpen(selectName) {
+    setOpenSelect((prev) => (prev === selectName ? null : selectName));
   }
+
+  function handleClickOutside(event) {
+    if (!event.target.closest(".customSelect")) {
+      setOpenSelect(null);
+    }
+  }
+
+  useEffect(() => {
+    if (openSelect !== null) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [openSelect]);
+
   return (
     <main>
       <Navigation />
@@ -25,27 +42,31 @@ function AddNewTask() {
             <h2 className={styles.addTaskPara}>შექმენი ახალი დავალება</h2>
           </div>
           <div className={styles.formDiv}>
-            <form action="" onSubmit="" className={styles.form}>
+            <form className={styles.form}>
               <div className={styles.formInnerDiv}>
                 <div className={styles.eachSectionDiv}>
                   <Title />
-                  <Depatments />
+                  <Depatments
+                    openSelect={openSelect}
+                    handleSelectOpen={handleSelectOpen}
+                  />
                 </div>
                 <div className={styles.eachSectionDiv}>
                   <Description />
-                  <ResponsibleEmployee />
+                  <ResponsibleEmployee
+                    openSelect={openSelect}
+                    handleSelectOpen={handleSelectOpen}
+                  />
                 </div>
                 <div className={styles.eachSectionDiv}>
                   <div className={styles.priorityStatusDiv}>
                     <Priority
-                      toggleDropdown={toggleDropdown}
-                      isOpen={isOpen}
-                      setIsOpen={setIsOpen}
+                      openSelect={openSelect}
+                      handleSelectOpen={handleSelectOpen}
                     />
                     <Status
-                      toggleDropdown={toggleDropdown}
-                      isOpen={isOpen}
-                      setIsOpen={setIsOpen}
+                      openSelect={openSelect}
+                      handleSelectOpen={handleSelectOpen}
                     />
                   </div>
                   <div>

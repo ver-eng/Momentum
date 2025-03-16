@@ -14,9 +14,10 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const STATUS_URL = "https://momentum.redberryinternship.ge/api/statuses";
 
-function Status() {
+function Status({ openSelect, handleSelectOpen }) {
+  const isOpen = openSelect === "status";
   const selectRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState({ name: "", icon: "" });
   const [statuses, setStatuses] = useState([]);
   const [statusID, setStatusID] = useState(null);
@@ -33,9 +34,9 @@ function Status() {
     }
     fetchStatus();
   }, []);
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
+  // const toggleDropdown = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
   const handleOptionClick = (status) => {
     setSelectedOption((prev) => ({
       ...prev,
@@ -45,11 +46,12 @@ function Status() {
     console.log(selectedOption);
     setStatusID(status.id);
     setPriorityError(true);
-    setIsOpen(false);
+    // setIsOpen(false);
+    handleSelectOpen(null);
   };
 
   return (
-    <div className={styles.department}>
+    <div className={`${styles.department} customSelect`}>
       <div className={styles.departmentInnerDiv}>
         <div className={styles.departmentLabel}>
           <span className={styles.departmentSpan}>სტატუსი</span>
@@ -59,7 +61,7 @@ function Status() {
         <div ref={selectRef} className={styles.selectDiv}>
           <div
             className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
-            onClick={toggleDropdown}
+            onClick={() => handleSelectOpen("status")}
           >
             <div className={styles.selectTitle}>
               {selectedOption.name ? (

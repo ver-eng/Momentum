@@ -13,9 +13,12 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
 
-function Depatments() {
+function Depatments({ openSelect, handleSelectOpen }) {
+  const isOpen = openSelect === "departments";
+  console.log(openSelect);
+  console.log(isOpen);
   const selectRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [departments, setDepartments] = useState([]);
   const [deptID, setSeptId] = useState(null);
@@ -32,18 +35,19 @@ function Depatments() {
     }
     fetchDepartments();
   }, []);
-  const toggleDropdown = () => {
-    setIsOpen((prev) => !prev);
-  };
+  // const toggleDropdown = () => {
+  //   setIsOpen((prev) => !prev);
+  // };
   const handleOptionClick = (dept) => {
     setSelectedOption(dept.name);
     setSeptId(dept.id);
     setDepartError(true);
-    setIsOpen(false);
+    // setIsOpen(false);
+    handleSelectOpen(null);
   };
 
   return (
-    <div className={styles.department}>
+    <div className={`${styles.department} customSelect`}>
       <div className={styles.departmentInnerDiv}>
         <div className={styles.departmentLabel}>
           <span className={styles.departmentSpan}>დეპარტამენტი</span>
@@ -53,7 +57,7 @@ function Depatments() {
         <div ref={selectRef} className={styles.selectDiv}>
           <div
             className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
-            onClick={toggleDropdown}
+            onClick={() => handleSelectOpen("departments")}
           >
             <p className={styles.selectTitle}>
               {/* {selectedOption || "ადმინისტრაციის დეპარტამენტი"} */}
