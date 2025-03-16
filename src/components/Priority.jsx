@@ -15,9 +15,9 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const PRIORITY_URL = "https://momentum.redberryinternship.ge/api/priorities";
 
-function Priority({ toggleDropdown, isOpen, setIsOpen }) {
+function Priority() {
   const selectRef = useRef(null);
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState({ name: "", icon: "" });
   const [priorities, setPriorities] = useState([]);
   const [priorityID, setPriorityID] = useState(null);
@@ -34,9 +34,9 @@ function Priority({ toggleDropdown, isOpen, setIsOpen }) {
     }
     fetchDepartments();
   }, []);
-  // const toggleDropdown = () => {
-  //   setIsOpen((prev) => !prev);
-  // };
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
   const handleOptionClick = (priority) => {
     setSelectedOption((prev) => ({
       ...prev,

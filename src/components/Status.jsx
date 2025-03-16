@@ -14,9 +14,9 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const STATUS_URL = "https://momentum.redberryinternship.ge/api/statuses";
 
-function Status({ toggleDropdown, isOpen, setIsOpen }) {
+function Status() {
   const selectRef = useRef(null);
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState({ name: "", icon: "" });
   const [statuses, setStatuses] = useState([]);
   const [statusID, setStatusID] = useState(null);
@@ -33,9 +33,9 @@ function Status({ toggleDropdown, isOpen, setIsOpen }) {
     }
     fetchStatus();
   }, []);
-  // const toggleDropdown = () => {
-  //   setIsOpen((prev) => !prev);
-  // };
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
   const handleOptionClick = (status) => {
     setSelectedOption((prev) => ({
       ...prev,

@@ -21,14 +21,15 @@
 }
 .select {
   width: 259px;
-  height: 46px;
   border-radius: 5px;
-  border: 1px solid #dee2e6;
+  height: 45px;
+  border: 1px solid rgba(206, 212, 218, 1);
   padding: 14px;
+  background-color: #fff;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   gap: 6px;
-  background-color: #fff;
 }
 .select:hover {
   cursor: pointer;
@@ -39,7 +40,7 @@
   border-radius: 5px 5px 0 0;
 }
 .selectTitle {
-  width: 498px;
+  width: 207px;
   font-size: 14px;
   font-weight: 300;
   color: #0d0f10;
@@ -69,8 +70,7 @@
   top: 100%;
   left: 0;
   width: 100%;
-  list-style: none;
-  background-color: white;
+  background-color: #fff;
   border: 1px solid #8338ec;
   border-top: none;
   border-radius: 0 0 6px 6px;
@@ -80,10 +80,10 @@
   font-weight: 300;
   font-size: 14px;
   color: #0d0f10;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 6px;
+  justify-content: flex-start; */
+  /* gap: 6px; */
 }
 .optionItem:hover {
   cursor: pointer;
