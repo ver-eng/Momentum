@@ -4,7 +4,10 @@ import Asterisk from "../assets/icons/Asterisk.svg";
 import check from "../assets/icons/check.svg";
 import checkRed from "../assets/icons/check-red.svg";
 import checkGreen from "../assets/icons/check-green.svg";
-function Description() {
+function Description({ onChange, taskData }) {
+  function handleChange(e) {
+    onChange("description", e.target.value);
+  }
   return (
     <div className={styles.nameDiv}>
       <label className={styles.nameLabel} htmlFor="description">
@@ -16,7 +19,8 @@ function Description() {
         type="text"
         className={styles.descriptionInput}
         maxLength="255"
-        // value={name}
+        value={taskData.description}
+        onChange={handleChange}
       />
       <div className={styles.errorDiv}>
         <div className={styles.firstError}>

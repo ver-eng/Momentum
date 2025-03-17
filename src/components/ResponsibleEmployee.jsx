@@ -2,6 +2,7 @@ import styles from "./ResponsibleEmployee.module.css";
 import Asterisk from "../assets/icons/Asterisk.svg";
 import addEmployeeIcon from "../assets/icons/addEmployeeIcon.svg";
 import inactiveStar from "../assets/icons/inactiveStar.svg";
+import inactivearrowDown from "../assets/icons/inactivearrow-down.svg";
 import { useEffect, useRef, useState } from "react";
 
 // import check from "../assets/icons/check.svg";
@@ -14,7 +15,12 @@ import axios from "axios";
 const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const EMPLOYEE_URL = "https://momentum.redberryinternship.ge/api/employees";
-function ResponsibleEmployee({ openSelect, handleSelectOpen }) {
+function ResponsibleEmployee({
+  openSelect,
+  handleSelectOpen,
+  onChange,
+  taskData,
+}) {
   const isOpen = openSelect === "responsibleemployee";
   const selectRef = useRef(null);
   // const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +41,17 @@ function ResponsibleEmployee({ openSelect, handleSelectOpen }) {
         const response = await axios.get(EMPLOYEE_URL, {
           headers: { Authorization: `Bearer ${API_TOKEN}` },
         });
-
-        setEmployees(response.data);
+        const data = response.data.filter((employee) => {
+          console.log(employee);
+          console.log(employee.department.id);
+          console.log(taskData.department.id);
+          console.log(
+            Number(employee.department_id) == Number(taskData.department?.id)
+          );
+          if (employee.department_id == taskData.department.id) return employee;
+        });
+        setEmployees(data);
+        // console.log(response.data);
       } catch (error) {
         console.log("error", error);
       }
@@ -66,15 +81,30 @@ function ResponsibleEmployee({ openSelect, handleSelectOpen }) {
     <div className={`${styles.department} customSelect`}>
       <div className={styles.departmentInnerDiv}>
         <div className={styles.departmentLabel}>
-          <span className={styles.departmentSpan}>
+          <span
+            className={
+              taskData.department.id !== null
+                ? styles.departmentSpan
+                : styles.inactiveDepartmentSpan
+            }
+          >
             პასუხისმგებელი თანამშრომელი
           </span>
-          <img src={Asterisk} className={styles.departmentImg} />
+          <img
+            src={taskData.department.id !== null ? Asterisk : inactiveStar}
+            className={styles.departmentImg}
+          />
         </div>
 
         <div ref={selectRef} className={styles.selectDiv}>
           <div
-            className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
+            className={`${
+              taskData.department.id !== null
+                ? styles.select
+                : styles.inactiveSelect
+            } ${
+              isOpen && taskData.department.id !== null ? styles.openSelect : ""
+            }`}
             onClick={() => handleSelectOpen("responsibleemployee")}
           >
             <div className={styles.selectTitle}>
@@ -106,13 +136,15 @@ function ResponsibleEmployee({ openSelect, handleSelectOpen }) {
                 : "ადმინისტრაციის დეპარტამენტი"} */}
             </div>
             <img
-              src={arrowDown}
+              src={
+                taskData.department.id !== null ? arrowDown : inactivearrowDown
+              }
               alt="Arrow"
               className={`${styles.arrowIcon} ${isOpen ? styles.rotate : ""}`}
             />
           </div>
 
-          {isOpen && (
+          {isOpen && taskData.department.id !== null ? (
             <ul className={styles.optionsList}>
               <li className={`${styles.optionItem} ${styles.addEmployeeLi}`}>
                 {/* <img
@@ -140,6 +172,8 @@ function ResponsibleEmployee({ openSelect, handleSelectOpen }) {
                 </li>
               ))}
             </ul>
+          ) : (
+            ""
           )}
         </div>
       </div>

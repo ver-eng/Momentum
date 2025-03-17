@@ -15,7 +15,7 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const PRIORITY_URL = "https://momentum.redberryinternship.ge/api/priorities";
 
-function Priority({ openSelect, handleSelectOpen }) {
+function Priority({ openSelect, handleSelectOpen, onChange, taskData }) {
   const isOpen = openSelect === "priority";
   const selectRef = useRef(null);
   // const [isOpen, setIsOpen] = useState(false);

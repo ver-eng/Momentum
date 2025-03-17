@@ -13,10 +13,9 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
 
-function Depatments({ openSelect, handleSelectOpen }) {
+function Depatments({ openSelect, handleSelectOpen, onChange, taskData }) {
   const isOpen = openSelect === "departments";
-  console.log(openSelect);
-  console.log(isOpen);
+
   const selectRef = useRef(null);
   // const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
@@ -39,6 +38,7 @@ function Depatments({ openSelect, handleSelectOpen }) {
   //   setIsOpen((prev) => !prev);
   // };
   const handleOptionClick = (dept) => {
+    onChange("department", { id: dept.id, name: dept.name });
     setSelectedOption(dept.name);
     setSeptId(dept.id);
     setDepartError(true);
@@ -61,10 +61,11 @@ function Depatments({ openSelect, handleSelectOpen }) {
           >
             <p className={styles.selectTitle}>
               {/* {selectedOption || "ადმინისტრაციის დეპარტამენტი"} */}
-              {selectedOption ||
+              {taskData.department.name ||
                 (departments.length > 0
                   ? departments[0].name
                   : "ადმინისტრაციის დეპარტამენტი")}
+              {/* {taskData.department.name?taskData.department.name} */}
               {/* {selectedOption
                 ? selectedOption.name
                 : departments.length > 0

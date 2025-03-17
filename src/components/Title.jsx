@@ -3,7 +3,10 @@ import Asterisk from "../assets/icons/Asterisk.svg";
 import check from "../assets/icons/check.svg";
 import checkRed from "../assets/icons/check-red.svg";
 import checkGreen from "../assets/icons/check-green.svg";
-function Title() {
+function Title({ titleChange, taskData }) {
+  function handleChange(e) {
+    titleChange("name", e.target.value);
+  }
   return (
     <div className={styles.nameDiv}>
       <label className={styles.nameLabel} htmlFor="name">
@@ -16,7 +19,8 @@ function Title() {
         type="text"
         required
         className={styles.nameInput}
-        value={name}
+        value={taskData.name}
+        onChange={handleChange}
       />
       <div className={styles.errorDiv}>
         <div className={styles.firstError}>

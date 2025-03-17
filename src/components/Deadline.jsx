@@ -6,7 +6,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Asterisk from "../assets/icons/Asterisk.svg";
 import dateIcon from "../assets/icons/dateIcon.svg";
 
-function Deadline() {
+function Deadline({ onChange, taskData }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -49,7 +49,7 @@ function Deadline() {
                     />
                   </InputAdornment>
                 ),
-                endAdornment: null, 
+                endAdornment: null,
               },
             },
           }}

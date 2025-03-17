@@ -11,8 +11,54 @@ import Title from "../components/Title";
 import Deadline from "../components/Deadline";
 
 function AddNewTask() {
-  const [openSelect, setOpenSelect] = useState(null);
+  const [taskData, setTaskData] = useState(function () {
+    const storedData = localStorage.getItem("taskData");
 
+    return storedData
+      ? JSON.parse(storedData)
+      : {
+          id: null,
+          name: "",
+          description: "",
+          due_date: "",
+          status: {
+            id: null,
+            name: "",
+          },
+          priority: {
+            id: null,
+            name: "",
+            icon: "",
+          },
+          department: {
+            id: null,
+            name: "",
+          },
+          employee: {
+            id: null,
+            name: "",
+            surname: "",
+            avatar: "",
+            department_id: null,
+          },
+        };
+  });
+  const [openSelect, setOpenSelect] = useState(null);
+  useEffect(
+    function () {
+      localStorage.setItem("taskData", JSON.stringify(taskData));
+    },
+    [taskData]
+  );
+  function handleTaskData(field, value) {
+    console.log(field);
+    console.log(value);
+    setTaskData((prev) => ({
+      ...prev,
+      [field]: typeof value === "object" ? { ...value } : value,
+    }));
+    console.log(taskData);
+  }
   function handleSelectOpen(selectName) {
     setOpenSelect((prev) => (prev === selectName ? null : selectName));
   }
@@ -37,6 +83,9 @@ function AddNewTask() {
     <main>
       <Navigation />
       <section className={styles.section}>
+        <button onClick={() => localStorage.removeItem("taskData")}>
+          Clear LocalStorage
+        </button>
         <div className={styles.sectionDiv}>
           <div className={styles.addTaskParaDiv}>
             <h2 className={styles.addTaskPara}>შექმენი ახალი დავალება</h2>
@@ -45,17 +94,21 @@ function AddNewTask() {
             <form className={styles.form}>
               <div className={styles.formInnerDiv}>
                 <div className={styles.eachSectionDiv}>
-                  <Title />
+                  <Title titleChange={handleTaskData} taskData={taskData} />
                   <Depatments
                     openSelect={openSelect}
                     handleSelectOpen={handleSelectOpen}
+                    onChange={handleTaskData}
+                    taskData={taskData}
                   />
                 </div>
                 <div className={styles.eachSectionDiv}>
-                  <Description />
+                  <Description onChange={handleTaskData} taskData={taskData} />
                   <ResponsibleEmployee
                     openSelect={openSelect}
                     handleSelectOpen={handleSelectOpen}
+                    onChange={handleTaskData}
+                    taskData={taskData}
                   />
                 </div>
                 <div className={styles.eachSectionDiv}>
@@ -63,14 +116,18 @@ function AddNewTask() {
                     <Priority
                       openSelect={openSelect}
                       handleSelectOpen={handleSelectOpen}
+                      onChange={handleTaskData}
+                      taskData={taskData}
                     />
                     <Status
                       openSelect={openSelect}
                       handleSelectOpen={handleSelectOpen}
+                      onChange={handleTaskData}
+                      taskData={taskData}
                     />
                   </div>
                   <div>
-                    <Deadline />
+                    <Deadline onChange={handleTaskData} taskData={taskData} />
                   </div>
                 </div>
                 <div className={styles.submitBtnDiv}>

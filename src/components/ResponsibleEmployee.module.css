@@ -36,6 +36,20 @@
 .select:hover {
   cursor: pointer;
 }
+.inactiveSelect {
+  width: 550px;
+  height: 45px;
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  background-color: #fff;
+}
+.inactiveSelect {
+  cursor: default;
+}
 .openSelect {
   border: 1px solid #8338ec;
   border-bottom: none;
