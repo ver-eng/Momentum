@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 // import arrowDown from "../assets/icons/arrow-down.svg";
 import arrowDown from "../assets/icons/arrow-down.svg";
 import axios from "axios";
+import { setDate } from "date-fns";
 
 const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
@@ -32,35 +33,60 @@ function ResponsibleEmployee({
     department_id: "",
   });
   const [employees, setEmployees] = useState([]);
+  const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [deptID, setSeptId] = useState(null);
   const [employeeError, setEmployeeError] = useState(null);
 
-  useEffect(function () {
+  useEffect(() => {
     async function fetchEmployee() {
       try {
         const response = await axios.get(EMPLOYEE_URL, {
           headers: { Authorization: `Bearer ${API_TOKEN}` },
         });
-        const data = response.data.filter((employee) => {
-          console.log(employee);
-          console.log(employee.department.id);
-          console.log(taskData.department.id);
-          console.log(
-            Number(employee.department_id) == Number(taskData.department?.id)
-          );
-          if (employee.department_id == taskData.department.id) return employee;
-        });
-        setEmployees(data);
-        // console.log(response.data);
+
+        setEmployees(response.data);
       } catch (error) {
         console.log("error", error);
       }
     }
+
     fetchEmployee();
   }, []);
+
+  useEffect(
+    function () {
+      const filteredEmp = employees.filter((employee) => {
+        return employee.department.id == taskData.department.id;
+      });
+      // console.log(filteredEmp);
+      setSelectedOption((prev) => ({
+        ...prev,
+        id: null,
+        name: "",
+        surname: "",
+        avatar: "",
+        department_id: null,
+      }));
+
+      setFilteredEmployees(filteredEmp);
+    },
+    [employees, taskData.department.id]
+  );
   // const toggleDropdown = () => {
   //   setIsOpen((prev) => !prev);
   // };
+  // useRef(
+  //   function () {
+  //     onChange("employee", {
+  //       id: null,
+  //       name: "",
+  //       surname: "",
+  //       avatar: "",
+  //       department_id: null,
+  //     });
+  //   },
+  //   [taskData.department.id]
+  // );
   const handleOptionClick = (dept) => {
     // setSelectedOption(dept.name);
     setSelectedOption((prev) => ({
@@ -71,6 +97,13 @@ function ResponsibleEmployee({
       avatar: dept.avatar,
       department_id: dept.department_id,
     }));
+    onChange("employee", {
+      id: dept.id,
+      name: dept.name,
+      surname: dept.surname,
+      avatar: dept.avatar,
+      department_id: dept.department_id,
+    });
     setSeptId(dept.id);
     setEmployeeError(true);
     // setIsOpen(false);
@@ -108,18 +141,18 @@ function ResponsibleEmployee({
             onClick={() => handleSelectOpen("responsibleemployee")}
           >
             <div className={styles.selectTitle}>
-              {selectedOption.name ? (
+              {taskData.employee.name ? (
                 <>
                   <div className={styles.displayIconDiv}>
                     <img
-                      src={selectedOption.avatar}
+                      src={taskData.employee.avatar}
                       alt="Icon"
                       className={styles.displayIcon}
                     />
                   </div>
 
                   <p className={styles.displayPara}>
-                    {selectedOption.name + " " + selectedOption.surname}
+                    {taskData.employee.name + " " + taskData.employee.surname}
                   </p>
                 </>
               ) : (
@@ -159,7 +192,7 @@ function ResponsibleEmployee({
                   დაამატე თანამშრომელი
                 </button>
               </li>
-              {employees.map((employee) => (
+              {filteredEmployees.map((employee) => (
                 <li
                   key={employee.id}
                   className={styles.optionItem}

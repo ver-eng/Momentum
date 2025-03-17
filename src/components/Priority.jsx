@@ -44,7 +44,11 @@ function Priority({ openSelect, handleSelectOpen, onChange, taskData }) {
       name: priority.name,
       icon: priority.icon,
     }));
-    console.log(selectedOption);
+    onChange("priority", {
+      id: priority.id,
+      name: priority.name,
+      icon: priority.icon,
+    });
     setPriorityID(priority.id);
     setPriorityError(true);
     // setIsOpen(false);
@@ -65,14 +69,14 @@ function Priority({ openSelect, handleSelectOpen, onChange, taskData }) {
             onClick={() => handleSelectOpen("priority")}
           >
             <div className={styles.selectTitle}>
-              {selectedOption.name ? (
+              {taskData.priority.name ? (
                 <>
                   <img
-                    src={selectedOption.icon}
+                    src={taskData.priority.icon}
                     alt="Icon"
                     className={styles.priorityIcon}
                   />
-                  <span>{selectedOption.name}</span>
+                  <span>{taskData.priority.name}</span>
                 </>
               ) : priorities.length > 0 ? (
                 <>

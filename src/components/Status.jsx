@@ -43,6 +43,7 @@ function Status({ openSelect, handleSelectOpen, onChange, taskData }) {
       name: status.name,
       icon: status.icon,
     }));
+    onChange("status", { id: status.id, name: status.name });
     console.log(selectedOption);
     setStatusID(status.id);
     setPriorityError(true);
@@ -64,9 +65,9 @@ function Status({ openSelect, handleSelectOpen, onChange, taskData }) {
             onClick={() => handleSelectOpen("status")}
           >
             <div className={styles.selectTitle}>
-              {selectedOption.name ? (
+              {taskData.status.name ? (
                 <>
-                  <span>{selectedOption.name}</span>
+                  <span>{taskData.status.name}</span>
                 </>
               ) : statuses.length > 0 ? (
                 <>
@@ -87,13 +88,13 @@ function Status({ openSelect, handleSelectOpen, onChange, taskData }) {
 
           {isOpen && (
             <ul className={styles.optionsList}>
-              {statuses.map((statuse) => (
+              {statuses.map((status) => (
                 <li
-                  key={statuse.id}
+                  key={status.id}
                   className={styles.optionItem}
-                  onClick={() => handleOptionClick(statuse)}
+                  onClick={() => handleOptionClick(status)}
                 >
-                  <span>{statuse.name}</span>
+                  <span>{status.name}</span>
                 </li>
               ))}
             </ul>

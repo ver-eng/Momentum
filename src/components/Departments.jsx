@@ -39,6 +39,13 @@ function Depatments({ openSelect, handleSelectOpen, onChange, taskData }) {
   // };
   const handleOptionClick = (dept) => {
     onChange("department", { id: dept.id, name: dept.name });
+    onChange("employee", {
+      id: null,
+      name: "",
+      surname: "",
+      avatar: "",
+      department_id: null,
+    });
     setSelectedOption(dept.name);
     setSeptId(dept.id);
     setDepartError(true);

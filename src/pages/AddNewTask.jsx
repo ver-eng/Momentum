@@ -51,13 +51,13 @@ function AddNewTask() {
     [taskData]
   );
   function handleTaskData(field, value) {
-    console.log(field);
-    console.log(value);
+    // console.log(field);
+    // console.log(value);
     setTaskData((prev) => ({
       ...prev,
       [field]: typeof value === "object" ? { ...value } : value,
     }));
-    console.log(taskData);
+    // console.log(taskData);
   }
   function handleSelectOpen(selectName) {
     setOpenSelect((prev) => (prev === selectName ? null : selectName));
@@ -127,7 +127,7 @@ function AddNewTask() {
                     />
                   </div>
                   <div>
-                    <Deadline onChange={handleTaskData} taskData={taskData} />
+                    <Deadline selectDate={handleTaskData} taskData={taskData} />
                   </div>
                 </div>
                 <div className={styles.submitBtnDiv}>
