@@ -86,7 +86,11 @@
 .ThirdList {
   top: 110%;
   left: -305%;
+  /* height: 298px;
+  overflow-y: auto;
+  scrollbar-width: thin; */
 }
+
 .checkIconDiv {
   width: 24px;
   height: 24px;

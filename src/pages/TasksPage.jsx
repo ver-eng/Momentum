@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import arrowDown from "../assets/icons/arrow-down.svg";
 import filterIcon from "../assets/icons/filterIcon.svg";
+import FilterList from "../components/FilterList";
+import { useLocation } from "react-router-dom";
 
 const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = "https://momentum.redberryinternship.ge/api";
@@ -12,77 +14,137 @@ const PRIORITY_URL = `${BASE_URL}/priorities`;
 const EMPLOYEE_URL = `${BASE_URL}/employees`;
 
 function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
+  const location = useLocation();
+
   const [openFilter, setOpenFilter] = useState(null);
   const [departments, setDepartments] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [selectedFilters, setSelectedFilters] = useState({
-    department: [],
-    priority: [],
-    employee: null,
+  // const [selectedFilters, setSelectedFilters] = useState({
+  //   department: [],
+  //   priority: [],
+  //   employee: null,
+  // });
+  const [selectedFilters, setSelectedFilters] = useState(function () {
+    const permanentFilters = sessionStorage.getItem("selectedFilters");
+    return permanentFilters
+      ? JSON.parse(permanentFilters)
+      : {
+          department: [],
+          priority: [],
+          employee: null,
+        };
   });
+  // const [tempSelectedFilters, setTempSelectedFilters] = useState({
+  //   department: [],
+  //   priority: [],
+  //   employee: null,
+  // });
 
-  useEffect(() => {
-    const storedFilters = sessionStorage.getItem("selectedFilters");
-    if (storedFilters) {
-      setSelectedFilters(JSON.parse(storedFilters));
-    }
-  }, []);
+  const [tempSelectedFilters, setTempSelectedFilters] = useState(function () {
+    const temporaryFilters = sessionStorage.getItem("tempSelectedFilters");
+    return temporaryFilters
+      ? JSON.parse(temporaryFilters)
+      : {
+          department: [],
+          priority: [],
+          employee: null,
+        };
+  });
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [deptRes, priorityRes, empRes] = await Promise.all([
-          axios.get(DEPARTMENT_URL),
-          axios.get(PRIORITY_URL),
-          axios.get(EMPLOYEE_URL, {
-            headers: { Authorization: `Bearer ${API_TOKEN}` },
-          }),
-        ]);
+        const [deptartmentResponse, priorityResponse, employeeResponse] =
+          await Promise.all([
+            axios.get(DEPARTMENT_URL),
+            axios.get(PRIORITY_URL),
+            axios.get(EMPLOYEE_URL, {
+              headers: { Authorization: `Bearer ${API_TOKEN}` },
+            }),
+          ]);
 
-        setDepartments(deptRes.data);
-        setPriorities(priorityRes.data);
-        setEmployees(empRes.data);
+        setDepartments(deptartmentResponse.data);
+        setPriorities(priorityResponse.data);
+        setEmployees(employeeResponse.data);
       } catch (error) {
-        console.log("Error fetching filters:", error);
+        console.log(error);
       }
     }
     fetchData();
   }, []);
 
   function toggleFilter(filterName) {
-    setOpenFilter((prev) => (prev === filterName ? null : filterName));
+    setOpenFilter((prevFilter) => {
+      if (prevFilter !== filterName) {
+        setTempSelectedFilters(selectedFilters);
+      }
+      return prevFilter === filterName ? null : filterName;
+    });
   }
 
   function handleMultiSelect(filterType, item) {
-    setSelectedFilters((prev) => {
+    setTempSelectedFilters((prev) => {
       const alreadySelected = prev[filterType].some((f) => f.id === item.id);
-
       const updatedFilters = {
         ...prev,
         [filterType]: alreadySelected
           ? prev[filterType].filter((f) => f.id !== item.id)
           : [...prev[filterType], item],
       };
-
-      sessionStorage.setItem("selectedFilters", JSON.stringify(updatedFilters));
+      // sessionStorage.setItem(
+      //   "tempSelectedFilters",
+      //   JSON.stringify(updatedFilters)
+      // );
       return updatedFilters;
     });
   }
 
   function handleSingleSelect(item) {
-    const updatedFilters =
-      item.id !== selectedFilters.employee?.id
-        ? { ...selectedFilters, employee: item }
-        : { ...selectedFilters, employee: null };
-
-    setSelectedFilters(updatedFilters);
-    sessionStorage.setItem("selectedFilters", JSON.stringify(updatedFilters));
+    setTempSelectedFilters((prev) => {
+      const updatedFilters = {
+        ...prev,
+        employee: prev.employee?.id === item.id ? null : item,
+      };
+      // sessionStorage.setItem(
+      //   "tempSelectedFilters",
+      //   JSON.stringify(updatedFilters)
+      // );
+      return updatedFilters;
+    });
   }
+  function applyFilters() {
+    setSelectedFilters(tempSelectedFilters);
+    sessionStorage.setItem(
+      "selectedFilters",
+      JSON.stringify(tempSelectedFilters)
+    );
+    setOpenFilter(null);
+  }
+  // useEffect(() => {
+  //   console.log("Saving to selectedFilters:", selectedFilters);
 
+  //   sessionStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
+  // }, [selectedFilters]);
+
+  // useEffect(() => {
+  //   console.log("Saving to tempSelectedFilters:", tempSelectedFilters);
+
+  //   sessionStorage.setItem(
+  //     "tempSelectedFilters",
+  //     JSON.stringify(tempSelectedFilters)
+  //   );
+  // }, [tempSelectedFilters]);
+
+  console.log(JSON.parse(sessionStorage.getItem("selectedFilters")));
   useEffect(() => {
-    return () => sessionStorage.removeItem("selectedFilters");
-  }, []);
+    return () => {
+      if (location.pathname !== "/") {
+        sessionStorage.removeItem("selectedFilters");
+        sessionStorage.removeItem("tempSelectedFilters");
+      }
+    };
+  }, [location]);
 
   return (
     <main>
@@ -118,14 +180,16 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                     <li
                       key={dept.id}
                       className={`${styles.filterListItem} ${
-                        selectedFilters.department.some((d) => d.id === dept.id)
+                        tempSelectedFilters.department.some(
+                          (d) => d.id === dept.id
+                        )
                           ? styles.selected
                           : ""
                       }`}
                       onClick={() => handleMultiSelect("department", dept)}
                     >
                       <div className={styles.checkIconDiv}>
-                        {selectedFilters.department.some(
+                        {tempSelectedFilters.department.some(
                           (d) => d.id === dept.id
                         ) && (
                           <img
@@ -138,7 +202,12 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                       {dept.name}
                     </li>
                   ))}
-                  <button className={styles.selectBtn}>არჩევა</button>
+                  <button
+                    className={styles.selectBtn}
+                    onClick={() => applyFilters("department")}
+                  >
+                    არჩევა
+                  </button>
                 </ul>
               )}
             </div>
@@ -165,7 +234,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                     <li
                       key={priority.id}
                       className={`${styles.filterListItem} ${
-                        selectedFilters.priority.some(
+                        tempSelectedFilters.priority.some(
                           (p) => p.id === priority.id
                         )
                           ? styles.selected
@@ -174,7 +243,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                       onClick={() => handleMultiSelect("priority", priority)}
                     >
                       <div className={styles.checkIconDiv}>
-                        {selectedFilters.priority.some(
+                        {tempSelectedFilters.priority.some(
                           (p) => p.id === priority.id
                         ) && (
                           <img
@@ -187,7 +256,12 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                       {priority.name}
                     </li>
                   ))}
-                  <button className={styles.selectBtn}>არჩევა</button>
+                  <button
+                    className={styles.selectBtn}
+                    onClick={() => applyFilters("priority")}
+                  >
+                    არჩევა
+                  </button>
                 </ul>
               )}
             </div>
@@ -214,14 +288,14 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                     <li
                       key={emp.id}
                       className={`${styles.filterListItem} ${
-                        selectedFilters.employee?.id === emp.id
+                        tempSelectedFilters.employee?.id === emp.id
                           ? styles.selected
                           : ""
                       }`}
                       onClick={() => handleSingleSelect(emp)}
                     >
                       <div className={styles.checkIconDiv}>
-                        {selectedFilters.employee?.id === emp.id && (
+                        {tempSelectedFilters.employee?.id === emp.id && (
                           <img
                             src={filterIcon}
                             alt="Selected"
@@ -239,13 +313,19 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                       </div>
                     </li>
                   ))}
-                  <button className={styles.selectBtn}>არჩევა</button>
+                  <button
+                    className={styles.selectBtn}
+                    onClick={() => applyFilters("employee")}
+                  >
+                    არჩევა
+                  </button>
                 </ul>
               )}
             </div>
           </div>
         </div>
       </section>
+      <FilterList selectedFilters={selectedFilters} />
     </main>
   );
 }

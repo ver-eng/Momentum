@@ -72,8 +72,11 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // function validateLetters(value) {
+  //   return /^[ა-ჰa-zA-Z]+$/.test(value);
+  // }
   function validateLetters(value) {
-    return /^[ა-ჰa-zA-Z]+$/.test(value);
+    return /^(?=(.*[ა-ჰa-zA-Z]){2})[ა-ჰa-zA-Z\s]+$/.test(value);
   }
   function validateLength(value) {
     return value.length >= 2 && value.length <= 255;

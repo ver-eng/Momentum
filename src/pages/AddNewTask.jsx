@@ -1,5 +1,6 @@
 import styles from "./AddNewTask.module.css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Depatments from "../components/Departments";
 import Description from "../components/Description";
@@ -15,6 +16,7 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const TASK_URL = `https://momentum.redberryinternship.ge/api/tasks`;
 
 function AddNewTask({ handleOpenModal, employees }) {
+  const navigate = useNavigate();
   const [Efetchedtask, setEfetchedtask] = useState([]);
   const [dataValidation, setDataValidation] = useState(function () {
     const storedValidation = localStorage.getItem("dataValidation");
@@ -123,7 +125,7 @@ function AddNewTask({ handleOpenModal, employees }) {
         status: !!value.id,
       }));
     }
-    if (field === "employee") {
+    if (field === "employee" && value.id !== null) {
       setDataValidation((prev) => ({
         ...prev,
         employee: !!value.id,
@@ -140,7 +142,6 @@ function AddNewTask({ handleOpenModal, employees }) {
   function handleSelectOpen(selectName) {
     setOpenSelect((prev) => (prev === selectName ? null : selectName));
   }
-
   function handleClickOutside(event) {
     if (!event.target.closest(".customSelect")) {
       setOpenSelect(null);
@@ -233,6 +234,7 @@ function AddNewTask({ handleOpenModal, employees }) {
           department: null,
           employee: null,
         });
+        navigate("/");
       } catch (error) {
         console.log(error.response?.data);
       }
