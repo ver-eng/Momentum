@@ -3,7 +3,10 @@ import Asterisk from "../assets/icons/Asterisk.svg";
 import check from "../assets/icons/check.svg";
 import checkRed from "../assets/icons/check-red.svg";
 import checkGreen from "../assets/icons/check-green.svg";
-function Title({ titleChange, taskData }) {
+import { useState, useEffect } from "react";
+function Title({ titleChange, taskData, dataValidation }) {
+  console.log(dataValidation);
+
   function handleChange(e) {
     titleChange("name", e.target.value);
   }
@@ -24,50 +27,27 @@ function Title({ titleChange, taskData }) {
       />
       <div className={styles.errorDiv}>
         <div className={styles.firstError}>
-          {/* <img
-            src={check}
-            // src={
-            //   nameErrors.length === null
-            //     ? check
-            //     : nameErrors.length
-            //     ? checkGreen
-            //     : checkRed
-            // }
-            className={styles.errorTick}
-          /> */}
           <p
-            className={styles.errorSpanOriginal}
-            // className={
-            //   nameErrors.length === null
-            //     ? styles.errorSpanOriginal
-            //     : nameErrors.length
-            //     ? styles.errorSpanGreen
-            //     : styles.errorSpanRed
-            // }
+            className={
+              dataValidation.name.min === null
+                ? styles.errorSpanOriginal
+                : dataValidation.name.min === false
+                ? styles.errorSpanRed
+                : styles.errorSpanGreen
+            }
           >
             მინიმუმ 3 სიმბოლო
           </p>
         </div>
         <div className={styles.secondError}>
-          {/* <img
-            src={check}
-            // src={
-            //   nameErrors.letters === null
-            //     ? check
-            //     : nameErrors.letters
-            //     ? checkGreen
-            //     : checkRed
-            // }
-          /> */}
           <p
-            className={styles.errorSpanOriginal}
-            // className={
-            //   nameErrors.letters === null
-            //     ? styles.errorSpanOriginal
-            //     : nameErrors.letters
-            //     ? styles.errorSpanGreen
-            //     : styles.errorSpanRed
-            // }
+            className={
+              dataValidation.name.max === null
+                ? styles.errorSpanOriginal
+                : dataValidation.name.max === false
+                ? styles.errorSpanRed
+                : styles.errorSpanGreen
+            }
           >
             მაქსიმუმ 255 სიმბოლო
           </p>

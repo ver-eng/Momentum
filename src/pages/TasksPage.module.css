@@ -1,0 +1,141 @@
+.parentSection {
+  width: 1920px;
+  margin: 0 auto;
+}
+
+.parentDiv {
+  margin-left: 120px;
+}
+.parentHeader {
+  margin-bottom: 52px;
+}
+.header {
+  font-size: 34px;
+  font-weight: 600;
+  color: #212529;
+}
+.filtersMainDiv {
+  width: 688px;
+  height: 44px;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+  display: flex;
+  gap: 45px;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.filter {
+  /* parentDiv */
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.filterButton {
+  background-color: #fff;
+  border: none;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-right: 30px;
+}
+.filterButton:hover {
+  cursor: pointer;
+}
+.filterButtonSpan {
+  font-weight: 400;
+  font-size: 16px;
+  color: #0d0f10;
+}
+.arrowIcon {
+  width: 14px;
+  transition: transform 0.2s ease;
+}
+.rotate {
+  transform: rotate(180deg);
+}
+.filterList {
+  position: absolute;
+
+  background: #fff;
+  z-index: 2;
+  width: 688px;
+  border-radius: 10px;
+  padding: 40px 30px 20px 0px;
+  border: 0.5px solid #8338ec;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.selectBtn {
+  align-self: flex-end;
+}
+.FirstList {
+  top: 110%;
+  left: -18px;
+}
+.SecondList {
+  top: 110%;
+  left: -175%;
+}
+.ThirdList {
+  top: 110%;
+  left: -305%;
+}
+.checkIconDiv {
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid #212529;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.checkIcon {
+  width: 10.6px;
+}
+
+.filterListItem {
+  padding-left: 30px;
+  display: flex;
+  gap: 15px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #212529;
+}
+.filterListItem:hover {
+  cursor: pointer;
+  /* background-color: rgba(248, 249, 250, 1); */
+}
+.selectBtn {
+  width: 155px;
+  height: 35px;
+  padding: 8px 49.5px;
+  border-radius: 20px;
+  background-color: #8338ec;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  color: #fff;
+  border: none;
+  line-height: 100%;
+}
+.selectBtn:hover {
+  cursor: pointer;
+}
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+.filterItemLast {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}

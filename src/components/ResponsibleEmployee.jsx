@@ -21,6 +21,8 @@ function ResponsibleEmployee({
   handleSelectOpen,
   onChange,
   taskData,
+  handleOpenModal,
+  employees,
 }) {
   const isOpen = openSelect === "responsibleemployee";
   const selectRef = useRef(null);
@@ -32,26 +34,26 @@ function ResponsibleEmployee({
     avatar: "",
     department_id: "",
   });
-  const [employees, setEmployees] = useState([]);
+  // const [employees, setEmployees] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [deptID, setSeptId] = useState(null);
   const [employeeError, setEmployeeError] = useState(null);
 
-  useEffect(() => {
-    async function fetchEmployee() {
-      try {
-        const response = await axios.get(EMPLOYEE_URL, {
-          headers: { Authorization: `Bearer ${API_TOKEN}` },
-        });
+  // useEffect(() => {
+  //   async function fetchEmployee() {
+  //     try {
+  //       const response = await axios.get(EMPLOYEE_URL, {
+  //         headers: { Authorization: `Bearer ${API_TOKEN}` },
+  //       });
 
-        setEmployees(response.data);
-      } catch (error) {
-        console.log("error", error);
-      }
-    }
+  //       setEmployees(response.data);
+  //     } catch (error) {
+  //       console.log("error", error);
+  //     }
+  //   }
 
-    fetchEmployee();
-  }, []);
+  //   fetchEmployee();
+  // }, []);
 
   useEffect(
     function () {
@@ -87,24 +89,25 @@ function ResponsibleEmployee({
   //   },
   //   [taskData.department.id]
   // );
-  const handleOptionClick = (dept) => {
-    // setSelectedOption(dept.name);
+  const handleOptionClick = (employee) => {
+    console.log(employee);
+    // setSelectedOption(employee.name);
     setSelectedOption((prev) => ({
       ...prev,
-      id: dept.id,
-      name: dept.name,
-      surname: dept.surname,
-      avatar: dept.avatar,
-      department_id: dept.department_id,
+      id: employee.id,
+      name: employee.name,
+      surname: employee.surname,
+      avatar: employee.avatar,
+      department_id: employee.department.id,
     }));
     onChange("employee", {
-      id: dept.id,
-      name: dept.name,
-      surname: dept.surname,
-      avatar: dept.avatar,
-      department_id: dept.department_id,
+      id: employee.id,
+      name: employee.name,
+      surname: employee.surname,
+      avatar: employee.avatar,
+      department_id: employee.department.id,
     });
-    setSeptId(dept.id);
+    setSeptId(employee.id);
     setEmployeeError(true);
     // setIsOpen(false);
     handleSelectOpen(null);
@@ -179,7 +182,10 @@ function ResponsibleEmployee({
 
           {isOpen && taskData.department.id !== null ? (
             <ul className={styles.optionsList}>
-              <li className={`${styles.optionItem} ${styles.addEmployeeLi}`}>
+              <li
+                className={`${styles.optionItem} ${styles.addEmployeeLi}`}
+                onClick={() => handleOpenModal()}
+              >
                 {/* <img
                   src={addEmployeeIcon}
                   alt="add employee icon"
@@ -188,9 +194,9 @@ function ResponsibleEmployee({
                 <div className={styles.plusDiv}>
                   <span className={styles.plus}>+</span>
                 </div>
-                <button className={styles.addEmployeeBtn}>
+                <span className={styles.addEmployeeBtn}>
                   დაამატე თანამშრომელი
-                </button>
+                </span>
               </li>
               {filteredEmployees.map((employee) => (
                 <li

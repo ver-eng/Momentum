@@ -18,7 +18,7 @@ const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
 const EMPLOYEE_URL = "https://momentum.redberryinternship.ge/api/employees";
 
-function AddEmployeeModal({ show, onClose }) {
+function AddEmployeeModal({ show, onClose, fetchEmployee }) {
   const [departments, setDepartments] = useState([]);
 
   const [name, setName] = useState("");
@@ -88,7 +88,7 @@ function AddEmployeeModal({ show, onClose }) {
     //   length: validateLength(value),
     //   letters: validateLetters(value),
     // }));
-    console.log(nameErrors.length);
+    // console.log(nameErrors.length);
   }
   function validateName(value) {
     setNameErrors((prevErrors) => ({
@@ -129,7 +129,7 @@ function AddEmployeeModal({ show, onClose }) {
     // console.log(isImage);
     // console.log(isValidSize);
     setImgErrors((prev) => ({ ...prev, type: isImage, size: isValidSize }));
-    console.log(imgErrors);
+    // console.log(imgErrors);
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -202,6 +202,7 @@ function AddEmployeeModal({ show, onClose }) {
       });
 
       console.log("Success:", response.data);
+      await fetchEmployee();
       handleCloseModal();
     } catch (error) {
       console.error("Error:", error);

@@ -13,15 +13,17 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const DEPARTMENT_URL = "https://momentum.redberryinternship.ge/api/departments";
 
-function Depatments({ openSelect, handleSelectOpen, onChange, taskData }) {
+function Depatments({
+  openSelect,
+  handleSelectOpen,
+  onChange,
+  taskData,
+  errors,
+}) {
   const isOpen = openSelect === "departments";
 
   const selectRef = useRef(null);
-  // const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
   const [departments, setDepartments] = useState([]);
-  const [deptID, setSeptId] = useState(null);
-  const [departError, setDepartError] = useState(null);
   useEffect(function () {
     async function fetchDepartments() {
       try {
@@ -46,10 +48,6 @@ function Depatments({ openSelect, handleSelectOpen, onChange, taskData }) {
       avatar: "",
       department_id: null,
     });
-    setSelectedOption(dept.name);
-    setSeptId(dept.id);
-    setDepartError(true);
-    // setIsOpen(false);
     handleSelectOpen(null);
   };
 
@@ -92,13 +90,26 @@ function Depatments({ openSelect, handleSelectOpen, onChange, taskData }) {
                 <li
                   key={eachDept.id}
                   className={styles.optionItem}
-                  onClick={() => handleOptionClick(eachDept, eachDept.id)}
+                  onClick={() => handleOptionClick(eachDept)}
                 >
                   {eachDept.name}
                 </li>
               ))}
             </ul>
           )}
+        </div>
+        <div className={styles.errorDiv}>
+          <div className={styles.firstError}>
+            <p
+            // className={
+            //   errors.department
+            //     ? styles.errorSpanRed
+            //     : styles.errorSpanOriginal
+            // }
+            >
+              აირჩიე დეპარტამენტი
+            </p>
+          </div>
         </div>
       </div>
     </div>

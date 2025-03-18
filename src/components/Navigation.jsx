@@ -3,16 +3,15 @@ import addIcon from "../assets/icons/add.svg";
 import logo from "../assets/images/logo.png";
 import styles from "./Navigation.module.css";
 import { useState } from "react";
-import AddEmployeeModal from "./AddEmployeeModal";
 
-function Navigation() {
-  const [showModal, setShowModal] = useState(false);
-  function handleOpenModal() {
-    setShowModal(true);
-  }
-  function handleCloseModal() {
-    setShowModal(false);
-  }
+function Navigation({ handleOpenModal }) {
+  // const [showModal, setShowModal] = useState(false);
+  // function handleOpenModal() {
+  //   setShowModal(true);
+  // }
+  // function handleCloseModal() {
+  //   setShowModal(false);
+  // }
   return (
     <nav className={styles.nav}>
       <div className={styles.logoDiv}>
@@ -27,7 +26,6 @@ function Navigation() {
           <span className={styles.linkSpan}>შექმენი ახალი დავალება</span>
         </Link>
       </div>
-      <AddEmployeeModal show={showModal} onClose={handleCloseModal} />
     </nav>
   );
 }
