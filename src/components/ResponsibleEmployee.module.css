@@ -158,3 +158,18 @@
   align-items: center;
   justify-content: center;
 }
+.errorSpanOriginal {
+  font-weight: 350;
+  font-size: 10px;
+  color: #6c757d;
+}
+.errorSpanRed {
+  font-weight: 350;
+  font-size: 10px;
+  color: #fa4d4d;
+}
+.errorSpanGreen {
+  font-weight: 350;
+  font-size: 10px;
+  color: #08a508;
+}

@@ -15,7 +15,13 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const PRIORITY_URL = "https://momentum.redberryinternship.ge/api/priorities";
 
-function Priority({ openSelect, handleSelectOpen, onChange, taskData }) {
+function Priority({
+  openSelect,
+  handleSelectOpen,
+  onChange,
+  taskData,
+  dataValidation,
+}) {
   const isOpen = openSelect === "priority";
   const selectRef = useRef(null);
   // const [isOpen, setIsOpen] = useState(false);
@@ -111,6 +117,21 @@ function Priority({ openSelect, handleSelectOpen, onChange, taskData }) {
               ))}
             </ul>
           )}
+        </div>
+        <div className={styles.errorDiv}>
+          <div className={styles.firstError}>
+            <p
+              className={
+                dataValidation.priority === null
+                  ? styles.errorSpanOriginal
+                  : dataValidation.priority === false
+                  ? styles.errorSpanRed
+                  : styles.errorSpanGreen
+              }
+            >
+              აირჩიე პრიორიტეტი
+            </p>
+          </div>
         </div>
       </div>
     </div>

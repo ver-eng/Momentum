@@ -14,7 +14,13 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const STATUS_URL = "https://momentum.redberryinternship.ge/api/statuses";
 
-function Status({ openSelect, handleSelectOpen, onChange, taskData }) {
+function Status({
+  openSelect,
+  handleSelectOpen,
+  onChange,
+  taskData,
+  dataValidation,
+}) {
   const isOpen = openSelect === "status";
   const selectRef = useRef(null);
   // const [isOpen, setIsOpen] = useState(false);
@@ -99,6 +105,21 @@ function Status({ openSelect, handleSelectOpen, onChange, taskData }) {
               ))}
             </ul>
           )}
+        </div>
+        <div className={styles.errorDiv}>
+          <div className={styles.firstError}>
+            <p
+              className={
+                dataValidation.status === null
+                  ? styles.errorSpanOriginal
+                  : dataValidation.status === false
+                  ? styles.errorSpanRed
+                  : styles.errorSpanGreen
+              }
+            >
+              აირჩიე სტატუსი
+            </p>
+          </div>
         </div>
       </div>
     </div>

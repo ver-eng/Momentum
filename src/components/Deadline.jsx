@@ -7,12 +7,12 @@ import { format, parseISO } from "date-fns";
 import Asterisk from "../assets/icons/Asterisk.svg";
 import dateIcon from "../assets/icons/dateIcon.svg";
 
-function Deadline({ selectDate, taskData }) {
+function Deadline({ selectDate, taskData, dataValidation }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [open, setOpen] = useState(false);
   function handleDatePick(newDate) {
     if (newDate) {
-      const parsedDate = format(newDate, "yyyy-MM-dd");
+      const parsedDate = format(newDate, "yyyy-MM-dd'T'00:00:00'Z'");
 
       // setSelectedDate(newDate);
       setSelectedDate(parsedDate);
@@ -65,6 +65,21 @@ function Deadline({ selectDate, taskData }) {
           }}
         />
       </LocalizationProvider>
+      <div className={styles.errorDiv}>
+        <div className={styles.firstError}>
+          <p
+            className={
+              dataValidation.due_date === null
+                ? styles.errorSpanOriginal
+                : dataValidation.due_date === false
+                ? styles.errorSpanRed
+                : styles.errorSpanGreen
+            }
+          >
+            აირჩიე დედლაინი
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

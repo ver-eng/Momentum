@@ -23,6 +23,7 @@ function ResponsibleEmployee({
   taskData,
   handleOpenModal,
   employees,
+  dataValidation,
 }) {
   const isOpen = openSelect === "responsibleemployee";
   const selectRef = useRef(null);
@@ -214,6 +215,21 @@ function ResponsibleEmployee({
           ) : (
             ""
           )}
+        </div>
+        <div className={styles.errorDiv}>
+          <div className={styles.firstError}>
+            <p
+              className={
+                dataValidation.employee === null
+                  ? styles.errorSpanOriginal
+                  : dataValidation.employee === false
+                  ? styles.errorSpanRed
+                  : styles.errorSpanGreen
+              }
+            >
+              აირჩიე თანამშრომელი
+            </p>
+          </div>
         </div>
       </div>
     </div>

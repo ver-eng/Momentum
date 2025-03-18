@@ -11,7 +11,11 @@ import Title from "../components/Title";
 import Deadline from "../components/Deadline";
 import axios from "axios";
 
+const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
+const TASK_URL = `https://momentum.redberryinternship.ge/api/tasks`;
+
 function AddNewTask({ handleOpenModal, employees }) {
+  const [Efetchedtask, setEfetchedtask] = useState([]);
   const [dataValidation, setDataValidation] = useState(function () {
     const storedValidation = localStorage.getItem("dataValidation");
     return storedValidation
@@ -32,7 +36,7 @@ function AddNewTask({ handleOpenModal, employees }) {
     return storedData
       ? JSON.parse(storedData)
       : {
-          // id: null,
+          // id: 1,
           name: "",
           description: "",
           due_date: "",
@@ -58,27 +62,15 @@ function AddNewTask({ handleOpenModal, employees }) {
           },
         };
   });
-  const [errors, setErrors] = useState({});
   const [openSelect, setOpenSelect] = useState(null);
 
-  // useEffect(
-  //   function () {
-  //     localStorage.setItem("taskData", JSON.stringify(taskData));
-  //   },
-  //   [taskData]
-  // );
   useEffect(() => {
     const prevData = JSON.parse(localStorage.getItem("taskData")) || {};
     if (JSON.stringify(prevData) !== JSON.stringify(taskData)) {
       localStorage.setItem("taskData", JSON.stringify(taskData));
     }
   }, [taskData]);
-  // useEffect(
-  //   function () {
-  //     localStorage.setItem("dataValidation", JSON.stringify(dataValidation));
-  //   },
-  //   [dataValidation]
-  // );
+
   useEffect(() => {
     const prevValidation =
       JSON.parse(localStorage.getItem("dataValidation")) || {};
@@ -102,81 +94,48 @@ function AddNewTask({ handleOpenModal, employees }) {
         },
       }));
     }
-  }
-  // function handleTaskData(field, value) {
-  //   const newTaskData = {
-  //     ...taskData,
-  //     [field]: typeof value === "object" ? { ...value } : value,
-  //   };
-
-  //   const newValidation = { ...dataValidation };
-
-  //   if (field === "name") {
-  //     const nameLength = value.length;
-  //     newValidation.name = {
-  //       min: nameLength >= 3,
-  //       max: nameLength <= 255,
-  //     };
-  //   }
-
-  //   setTaskData(newTaskData);
-  //   setDataValidation(newValidation);
-  // }
-
-  // useEffect(() => {
-
-  // }, [taskData]);
-  // function validateForm(updatedTaskData = taskData) {
-  //   let newErrors = {};
-
-  //   if (updatedTaskData.name.length < 2) {
-  //     newErrors.name = "მინიმუმ 3 სიმბოლო";
-  //   }
-  //   if (updatedTaskData.name.length > 255) {
-  //     newErrors.name = "მაქსიმუმ 255 სიმბოლო";
-  //   }
-  //   if (updatedTaskData.description.length > 0) {
-  //     const wordCount = updatedTaskData.description.trim().split(/\s+/).length;
-  //     if (wordCount < 4) {
-  //       newErrors.description = "აღწერა უნდა შეიცავდეს მინიმუმ 4 სიტყვას";
-  //     }
-  //     if (updatedTaskData.description.length > 255) {
-  //       newErrors.description = "მაქსიმუმ 255 სიმბოლო";
-  //     }
-  //   }
-  //   if (!updatedTaskData.priority.id) {
-  //     newErrors.priority = "პრიორიტეტი აუცილებელია";
-  //   }
-  //   if (!updatedTaskData.status.id) {
-  //     newErrors.status = "სტატუსი აუცილებელია";
-  //   }
-  //   if (!updatedTaskData.department.id) {
-  //     newErrors.department = "დეპარტამენტი აუცილებელია";
-  //   }
-
-  //   if (!updatedTaskData.employee.id) {
-  //     newErrors.employee = "თანამშრომელი აუცილებელია";
-  //   }
-  //   if (!updatedTaskData.due_date) {
-  //     newErrors.due_date = "დედლაინი აუცილებელია";
-  //   } else {
-  //     const selectedDate = new Date(updatedTaskData.due_date);
-  //     if (selectedDate < new Date()) {
-  //       newErrors.due_date = "დედლაინი ვერ იქნება წარსულში";
-  //     }
-  //   }
-
-  //   setErrors(newErrors);
-  //   localStorage.setItem("formErrors", JSON.stringify(newErrors));
-
-  //   return Object.keys(newErrors).length === 0;
-  // }
-  useEffect(() => {
-    const storedErrors = localStorage.getItem("formErrors");
-    if (storedErrors) {
-      setErrors(JSON.parse(storedErrors));
+    if (field === "description") {
+      const descriptionLength = value.length;
+      setDataValidation((prev) => ({
+        ...prev,
+        description: {
+          isTyped: descriptionLength > 0,
+          min: value.trim().split(/\s+/).length >= 4,
+          max: descriptionLength <= 255,
+        },
+      }));
     }
-  }, []);
+    if (field === "department") {
+      setDataValidation((prev) => ({
+        ...prev,
+        department: !!value.id,
+      }));
+    }
+    if (field === "priority") {
+      setDataValidation((prev) => ({
+        ...prev,
+        priority: !!value.id,
+      }));
+    }
+    if (field === "status") {
+      setDataValidation((prev) => ({
+        ...prev,
+        status: !!value.id,
+      }));
+    }
+    if (field === "employee") {
+      setDataValidation((prev) => ({
+        ...prev,
+        employee: !!value.id,
+      }));
+    }
+    if (field === "due_date") {
+      setDataValidation((prev) => ({
+        ...prev,
+        due_date: value.length > 0,
+      }));
+    }
+  }
 
   function handleSelectOpen(selectName) {
     setOpenSelect((prev) => (prev === selectName ? null : selectName));
@@ -197,20 +156,108 @@ function AddNewTask({ handleOpenModal, employees }) {
 
     return () => document.removeEventListener("click", handleClickOutside);
   }, [openSelect]);
+  function validateBeforeSubmit() {
+    return (
+      dataValidation.name.min &&
+      dataValidation.name.max &&
+      (!dataValidation.description.isTyped ||
+        (dataValidation.description.isTyped &&
+          dataValidation.description.min &&
+          dataValidation.description.max)) &&
+      dataValidation.due_date &&
+      dataValidation.status &&
+      dataValidation.priority &&
+      dataValidation.department &&
+      dataValidation.employee
+    );
+  }
+  useEffect(function () {
+    async function fetchtask() {
+      try {
+        const response = await axios.get(TASK_URL, {
+          headers: { Authorization: `Bearer ${API_TOKEN}` },
+        });
 
-  function onSubmit(e) {
+        setEfetchedtask(response.data);
+        console.log("fetched data", response.data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+    fetchtask();
+  }, []);
+  async function onSubmit(e) {
     e.preventDefault();
-    console.log(taskData);
-    // if (validateForm()) {
-    //   console.log("Valid Data Submitted:", taskData);
-    //   localStorage.removeItem("taskData");
-    // }
+    if (validateBeforeSubmit()) {
+      console.log(taskData);
+      const formData = new FormData();
+      formData.append("name", taskData.name);
+      formData.append("description", taskData.description);
+      formData.append("due_date", taskData.due_date);
+      formData.append("status_id", taskData.status.id);
+      formData.append("priority_id", taskData.priority.id);
+      formData.append("department_id", taskData.department.id);
+      formData.append("employee_id", taskData.employee.id);
+
+      try {
+        const response = await axios.post(TASK_URL, formData, {
+          headers: {
+            Authorization: `Bearer ${API_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(response.data);
+        localStorage.removeItem("taskData");
+        localStorage.removeItem("dataValidation");
+        setTaskData({
+          name: "",
+          description: "",
+          due_date: "",
+          status: { id: null, name: "" },
+          priority: { id: null, name: "", icon: "" },
+          department: { id: null, name: "" },
+          employee: {
+            id: null,
+            name: "",
+            surname: "",
+            avatar: "",
+            department_id: null,
+          },
+        });
+        setDataValidation({
+          name: { min: null, max: null },
+          description: { isTyped: false, min: null, max: null },
+          due_date: null,
+          status: null,
+          priority: null,
+          department: null,
+          employee: null,
+        });
+      } catch (error) {
+        console.log(error.response?.data);
+      }
+    } else {
+      const updatedValidation = { ...dataValidation };
+      Object.keys(updatedValidation).forEach((key) => {
+        if (updatedValidation[key] === null) {
+          updatedValidation[key] = false;
+        } else if (typeof updatedValidation[key] === "object") {
+          Object.keys(updatedValidation[key]).forEach((subKey) => {
+            if (updatedValidation[key][subKey] === null) {
+              updatedValidation[key][subKey] = false;
+            }
+          });
+        }
+      });
+      setDataValidation(updatedValidation);
+      localStorage.setItem("dataValidation", JSON.stringify(updatedValidation));
+      console.log(updatedValidation);
+    }
   }
   return (
     <main>
       <Navigation handleOpenModal={handleOpenModal} />
       <section className={styles.section}>
-        <button onClick={() => localStorage.clear()}>Clear LocalStorage</button>
         <div className={styles.sectionDiv}>
           <div className={styles.addTaskParaDiv}>
             <h2 className={styles.addTaskPara}>შექმენი ახალი დავალება</h2>
@@ -229,23 +276,23 @@ function AddNewTask({ handleOpenModal, employees }) {
                     handleSelectOpen={handleSelectOpen}
                     onChange={handleTaskData}
                     taskData={taskData}
-                    errors={errors}
+                    dataValidation={dataValidation}
                   />
                 </div>
                 <div className={styles.eachSectionDiv}>
                   <Description
                     onChange={handleTaskData}
                     taskData={taskData}
-                    errors={errors}
+                    dataValidation={dataValidation}
                   />
                   <ResponsibleEmployee
                     openSelect={openSelect}
                     handleSelectOpen={handleSelectOpen}
                     onChange={handleTaskData}
                     taskData={taskData}
-                    errors={errors}
                     handleOpenModal={handleOpenModal}
                     employees={employees}
+                    dataValidation={dataValidation}
                   />
                 </div>
                 <div className={styles.eachSectionDiv}>
@@ -255,21 +302,21 @@ function AddNewTask({ handleOpenModal, employees }) {
                       handleSelectOpen={handleSelectOpen}
                       onChange={handleTaskData}
                       taskData={taskData}
-                      errors={errors}
+                      dataValidation={dataValidation}
                     />
                     <Status
                       openSelect={openSelect}
                       handleSelectOpen={handleSelectOpen}
                       onChange={handleTaskData}
                       taskData={taskData}
-                      errors={errors}
+                      dataValidation={dataValidation}
                     />
                   </div>
                   <div>
                     <Deadline
                       selectDate={handleTaskData}
                       taskData={taskData}
-                      errors={errors}
+                      dataValidation={dataValidation}
                     />
                   </div>
                 </div>

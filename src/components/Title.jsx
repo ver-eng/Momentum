@@ -5,8 +5,6 @@ import checkRed from "../assets/icons/check-red.svg";
 import checkGreen from "../assets/icons/check-green.svg";
 import { useState, useEffect } from "react";
 function Title({ titleChange, taskData, dataValidation }) {
-  console.log(dataValidation);
-
   function handleChange(e) {
     titleChange("name", e.target.value);
   }
@@ -20,7 +18,6 @@ function Title({ titleChange, taskData, dataValidation }) {
         id="name"
         name="name"
         type="text"
-        required
         className={styles.nameInput}
         value={taskData.name}
         onChange={handleChange}

@@ -18,7 +18,7 @@ function Depatments({
   handleSelectOpen,
   onChange,
   taskData,
-  errors,
+  dataValidation,
 }) {
   const isOpen = openSelect === "departments";
 
@@ -101,11 +101,13 @@ function Depatments({
         <div className={styles.errorDiv}>
           <div className={styles.firstError}>
             <p
-            // className={
-            //   errors.department
-            //     ? styles.errorSpanRed
-            //     : styles.errorSpanOriginal
-            // }
+              className={
+                dataValidation.department === null
+                  ? styles.errorSpanOriginal
+                  : dataValidation.department === false
+                  ? styles.errorSpanRed
+                  : styles.errorSpanGreen
+              }
             >
               აირჩიე დეპარტამენტი
             </p>
