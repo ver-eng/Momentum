@@ -1,0 +1,55 @@
+.filtersBox {
+  width: 1684px;
+  margin: 0 auto;
+  margin-top: 25px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eachFilter {
+  padding: 6px 7.5px 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid #ced4da;
+  border-radius: 43px;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: inherit;
+  color: rgba(52, 58, 64, 1);
+}
+
+.removeFilter:hover {
+  cursor: pointer;
+}
+.removeFilter {
+  background-color: #fff;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14px;
+  height: 14px;
+}
+
+.removeFilterX {
+  width: 14px;
+  height: 14px;
+}
+.clearAllFiltersDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.clearAllFilters {
+  background-color: #fff;
+  border: none;
+  font-size: 14px;
+  color: rgba(52, 58, 64, 1);
+  font-weight: 400;
+}
+.clearAllFilters:hover {
+  cursor: pointer;
+}

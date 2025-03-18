@@ -101,7 +101,9 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   }
 
   function handleSingleSelect(item) {
+    console.log(item);
     setTempSelectedFilters((prev) => {
+      console.log(prev);
       const updatedFilters = {
         ...prev,
         employee: prev.employee?.id === item.id ? null : item,
@@ -113,20 +115,52 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
       return updatedFilters;
     });
   }
+  // function deleteFilter(title, id) {
+  //   console.log(id);
+  //   console.log(tempSelectedFilters[title]);
+  //   setTempSelectedFilters((prev)=>{...prev, })
+  //   tempSelectedFilters[title]
+
+  // }
   function applyFilters() {
     setSelectedFilters(tempSelectedFilters);
-    sessionStorage.setItem(
-      "selectedFilters",
-      JSON.stringify(tempSelectedFilters)
-    );
+    // sessionStorage.setItem(
+    //   "selectedFilters",
+    //   JSON.stringify(tempSelectedFilters)
+    // );
     setOpenFilter(null);
   }
-  // useEffect(() => {
-  //   console.log("Saving to selectedFilters:", selectedFilters);
+  function handleEachFilterDelete(field, id) {
+    setSelectedFilters((prev) => {
+      const updatedFilters = {
+        ...prev,
+        [field]:
+          field === "employee"
+            ? null
+            : prev[field].filter((each) => {
+                console.log(each.id);
+                console.log(id);
+                return each.id !== id;
+              }),
+      };
 
-  //   sessionStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
-  // }, [selectedFilters]);
+      return updatedFilters;
+    });
+  }
+  function deleteAllFilters() {
+    setSelectedFilters((prev) => ({
+      ...prev,
+      employee: null,
+      department: [],
+      priority: [],
+    }));
+  }
 
+  useEffect(() => {
+    console.log("Saving to selectedFilters:", selectedFilters);
+
+    sessionStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
+  }, [selectedFilters]);
   // useEffect(() => {
   //   console.log("Saving to tempSelectedFilters:", tempSelectedFilters);
 
@@ -136,7 +170,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   //   );
   // }, [tempSelectedFilters]);
 
-  console.log(JSON.parse(sessionStorage.getItem("selectedFilters")));
+  // console.log(JSON.parse(sessionStorage.getItem("selectedFilters")));
   useEffect(() => {
     return () => {
       if (location.pathname !== "/") {
@@ -325,7 +359,11 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
           </div>
         </div>
       </section>
-      <FilterList selectedFilters={selectedFilters} />
+      <FilterList
+        selectedFilters={selectedFilters}
+        handleEachFilterDelete={handleEachFilterDelete}
+        deleteAllFilters={deleteAllFilters}
+      />
     </main>
   );
 }
