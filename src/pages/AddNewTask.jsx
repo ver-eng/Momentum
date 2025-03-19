@@ -17,7 +17,7 @@ const TASK_URL = `https://momentum.redberryinternship.ge/api/tasks`;
 
 function AddNewTask({ handleOpenModal, employees }) {
   const navigate = useNavigate();
-  const [Efetchedtask, setEfetchedtask] = useState([]);
+
   const [dataValidation, setDataValidation] = useState(function () {
     const storedValidation = localStorage.getItem("dataValidation");
     return storedValidation
@@ -172,21 +172,7 @@ function AddNewTask({ handleOpenModal, employees }) {
       dataValidation.employee
     );
   }
-  useEffect(function () {
-    async function fetchtask() {
-      try {
-        const response = await axios.get(TASK_URL, {
-          headers: { Authorization: `Bearer ${API_TOKEN}` },
-        });
 
-        setEfetchedtask(response.data);
-        console.log("fetched data", response.data);
-      } catch (error) {
-        console.log("error", error);
-      }
-    }
-    fetchtask();
-  }, []);
   async function onSubmit(e) {
     e.preventDefault();
     if (validateBeforeSubmit()) {

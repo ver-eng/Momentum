@@ -1,0 +1,110 @@
+.cardFirstLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.priorityNameDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.priorityDiv {
+  width: 86px;
+  height: 26px;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255, 190, 11, 1);
+  padding: 4px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 4px;
+}
+.priorityImg {
+  width: 16px;
+  height: 18px;
+  /* margin-right: 4px; */
+}
+.priorityName {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 150%;
+  color: rgba(255, 190, 11, 1);
+}
+.departmentNameDiv {
+  /* width: 88px; */
+  border-radius: 15px;
+  padding: 5px 9px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.colorDesign {
+  background-color: rgba(255, 102, 168, 1);
+}
+.colorMarketing {
+  background-color: rgba(253, 154, 106, 1);
+}
+.colorTeq {
+  background-color: rgba(255, 216, 109, 1);
+}
+.colorLogistics {
+  background-color: rgba(137, 182, 255, 1);
+}
+
+.departmentName {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+}
+.deadlineNameDiv {
+}
+.deadlineName {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 1);
+  font-weight: 400;
+}
+.cardSecondLine {
+  width: 320px;
+  height: 70px;
+  padding: 0 10.5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+}
+.taskName {
+  font-weight: 500;
+  font-size: 15px;
+  color: rgba(33, 37, 41, 1);
+}
+.taskDescription {
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(52, 58, 64, 1);
+  text-align: start;
+  /* line-height: 100%; */
+}
+.employeeAvatar {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+}
+.cardThirdLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.commentsIcon {
+  width: 22px;
+  height: 22px;
+  margin-right: 4px;
+}
+.commentsSpan {
+  color: rgba(33, 37, 41, 1);
+  font-weight: 400;
+  font-size: 14px;
+}

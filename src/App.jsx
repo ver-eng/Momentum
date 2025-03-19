@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TasksPage from "./pages/TasksPage";
+import TaskInnerPage from "./pages/TaskInnerPage";
 import AddNewTask from "./pages/AddNewTask";
 import PageNotFound from "./pages/PageNotFound";
 import { useEffect, useState } from "react";
@@ -56,6 +57,7 @@ function App() {
             />
           }
         />
+        <Route path="/:id" element={<TaskInnerPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <AddEmployeeModal

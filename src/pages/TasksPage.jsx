@@ -6,12 +6,15 @@ import arrowDown from "../assets/icons/arrow-down.svg";
 import filterIcon from "../assets/icons/filterIcon.svg";
 import FilterList from "../components/FilterList";
 import { useLocation } from "react-router-dom";
+import StatusHeadings from "../components/StatusHeadings";
+import RenderTaskCards from "../components/RenderTaskCards";
 
 const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = "https://momentum.redberryinternship.ge/api";
 const DEPARTMENT_URL = `${BASE_URL}/departments`;
 const PRIORITY_URL = `${BASE_URL}/priorities`;
 const EMPLOYEE_URL = `${BASE_URL}/employees`;
+const TASK_URL = `${BASE_URL}/tasks`;
 
 function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   const location = useLocation();
@@ -20,6 +23,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   const [departments, setDepartments] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const [allTasks, setAllTasks] = useState([]);
   // const [selectedFilters, setSelectedFilters] = useState({
   //   department: [],
   //   priority: [],
@@ -72,6 +76,22 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
       }
     }
     fetchData();
+  }, []);
+
+  useEffect(function () {
+    async function fetchTask() {
+      try {
+        const response = await axios.get(TASK_URL, {
+          headers: { Authorization: `Bearer ${API_TOKEN}` },
+        });
+
+        setAllTasks(response.data);
+        console.log("fetched tasks", response.data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+    fetchTask();
   }, []);
 
   function toggleFilter(filterName) {
@@ -128,6 +148,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
     //   "selectedFilters",
     //   JSON.stringify(tempSelectedFilters)
     // );
+    console.log(selectedFilters);
     setOpenFilter(null);
   }
   function handleEachFilterDelete(field, id) {
@@ -138,8 +159,8 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
           field === "employee"
             ? null
             : prev[field].filter((each) => {
-                console.log(each.id);
-                console.log(id);
+                // console.log(each.id);
+                // console.log(id);
                 return each.id !== id;
               }),
       };
@@ -364,6 +385,8 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
         handleEachFilterDelete={handleEachFilterDelete}
         deleteAllFilters={deleteAllFilters}
       />
+      <StatusHeadings />
+      <RenderTaskCards allTasks={allTasks} />
     </main>
   );
 }

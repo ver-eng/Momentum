@@ -1,0 +1,43 @@
+.cardsSection {
+}
+
+.parentCardsDiv {
+  width: 1684px;
+  margin: 0 auto;
+  display: flex;
+  gap: 52px;
+  margin-bottom: 152px;
+}
+.cardsColumn {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  row-gap: 30px;
+}
+.eachCardDiv {
+}
+.beginner,
+.progress,
+.ready,
+.completed {
+  width: 381px;
+  background-color: none;
+  border-radius: 15px;
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.beginner {
+  border: 1px solid rgba(247, 188, 48, 1);
+}
+.progress {
+  border: 1px solid rgba(251, 86, 7, 1);
+}
+.ready {
+  border: 1px solid rgba(255, 0, 110, 1);
+}
+.completed {
+  border: 1px solid rgba(58, 134, 255, 1);
+}

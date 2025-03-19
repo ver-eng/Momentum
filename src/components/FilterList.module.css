@@ -1,5 +1,6 @@
 .filtersBox {
   width: 1684px;
+  min-height: 32px;
   margin: 0 auto;
   margin-top: 25px;
   margin-bottom: 24px;

@@ -1,0 +1,37 @@
+.statusSection {
+}
+.statusWrapper {
+  width: 1684px;
+  margin: 0 auto;
+  display: flex;
+  gap: 52px;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.firstStatus,
+.secondStatus,
+.thirdStatus,
+.fourthStatus {
+  width: 381px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+}
+.firstStatus {
+  background-color: rgba(247, 188, 48, 1);
+}
+.secondStatus {
+  background-color: rgba(251, 86, 7, 1);
+}
+.thirdStatus {
+  background-color: rgba(255, 0, 110, 1);
+}
+.fourthStatus {
+  background-color: rgba(58, 134, 255, 1);
+}
