@@ -3,6 +3,8 @@
   margin: 0 auto;
   display: flex;
   gap: 223px;
+  justify-content: center;
+  align-items: flex-start;
 }
 .taskDetailedinforDiv {
   width: 715px;

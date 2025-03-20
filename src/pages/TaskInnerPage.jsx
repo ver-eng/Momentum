@@ -6,7 +6,7 @@ import Navigation from "../components/Navigation";
 import calendar from "../assets/icons/calendar.svg";
 import manIcon from "../assets/icons/manIcon.svg";
 import pieChart from "../assets/icons/pie-chart.svg";
-import upasuxe from "../assets/icons/upasuxe.svg";
+
 import arrowDown from "../assets/icons/arrow-down.svg";
 import { format, parseISO } from "date-fns";
 import { ka } from "date-fns/locale";
@@ -42,7 +42,7 @@ function TaskInnerPage({ handleOpenModal, handleCloseModal, showModal }) {
     },
     [taskId]
   );
-  useEffect(() => console.log(singleData), [singleData]);
+  // useEffect(() => console.log(singleData), [singleData]);
 
   useEffect(function () {
     async function fetchStatus() {
@@ -56,22 +56,7 @@ function TaskInnerPage({ handleOpenModal, handleCloseModal, showModal }) {
     }
     fetchStatus();
   }, []);
-  // useEffect(
-  //   function () {
-  //     async function fetchTask() {
-  //       try {
-  //         const response = await axios.get(`${BASE_URL}/tasks/${id}/comments`, {
-  //           headers: { Authorization: `Bearer ${API_TOKEN}` },
-  //         });
-  //         console.log(response.data);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     }
-  //     fetchTask();
-  //   },
-  //   [id]
-  // );
+
   const toggleDropdown = () => {
     console.log("clicked");
     setIsOpen((prev) => !prev);
@@ -251,7 +236,7 @@ function TaskInnerPage({ handleOpenModal, handleCloseModal, showModal }) {
             </div>
           </div>
         </div>
-        <AddComments />
+        <AddComments taskId={taskId} />
       </div>
     </section>
   );
