@@ -1,0 +1,83 @@
+.innderPageMainDiv {
+  width: 1679px;
+  margin: 0 auto;
+  display: flex;
+  gap: 223px;
+}
+.taskDetailedinforDiv {
+  width: 715px;
+  display: flex;
+  flex-direction: column;
+  gap: 63px;
+}
+.taskDetailsDivLower {
+  width: 493;
+  display: flex;
+}
+.addCommentsDiv {
+}
+.select {
+  width: 259px;
+  border-radius: 5px;
+  height: 45px;
+  border: 1px solid rgba(206, 212, 218, 1);
+  padding: 14px;
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.select:hover {
+  cursor: pointer;
+}
+.openSelect {
+  border: 1px solid #8338ec;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+}
+.selectTitle {
+  width: 207px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #0d0f10;
+  display: flex;
+  justify-content: flex-start;
+  gap: 6px;
+  align-items: center;
+}
+.rotate {
+  transform: rotate(180deg);
+}
+
+.optionsList {
+  border: 1px solid #8338ec;
+  z-index: 100;
+  /* position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%; */
+  background-color: #fff;
+  border: 1px solid #8338ec;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+.optionItem {
+  padding: 14.5px 14px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #0d0f10;
+  /* display: flex;
+  align-items: center;
+  justify-content: flex-start; */
+  /* gap: 6px; */
+}
+.optionItem:hover {
+  cursor: pointer;
+  background-color: rgba(248, 249, 250, 1);
+}
+.employeeAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}

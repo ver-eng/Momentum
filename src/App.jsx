@@ -18,7 +18,6 @@ function SessionStorageManager() {
     if (location.pathname !== "/") {
       sessionStorage.clear();
       TasksPage;
-      console.log("Session storage cleared!");
     }
   }, [location.pathname]);
 
@@ -71,7 +70,16 @@ function App() {
             />
           }
         />
-        <Route path="/:id" element={<TaskInnerPage />} />
+        <Route
+          path="/:id"
+          element={
+            <TaskInnerPage
+              handleOpenModal={handleOpenModal}
+              handleCloseModal={handleCloseModal}
+              showModal={showModal}
+            />
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <AddEmployeeModal
