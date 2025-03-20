@@ -12,8 +12,6 @@ function RenderTaskCards({ allTasks }) {
     (eachTask) => eachTask.status.id === 4
   );
 
-  const id = 5;
-
   return (
     <section className={styles.cardsSection}>
       <div className={styles.parentCardsDiv}>

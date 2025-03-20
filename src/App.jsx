@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import TasksPage from "./pages/TasksPage";
 import TaskInnerPage from "./pages/TaskInnerPage";
 import AddNewTask from "./pages/AddNewTask";
@@ -11,6 +11,19 @@ const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
 const BASE_URL = `https://momentum.redberryinternship.ge/api`;
 const EMPLOYEE_URL = "https://momentum.redberryinternship.ge/api/employees";
 
+function SessionStorageManager() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      sessionStorage.clear();
+      TasksPage;
+      console.log("Session storage cleared!");
+    }
+  }, [location.pathname]);
+
+  return null;
+}
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [employees, setEmployees] = useState([]);
@@ -37,6 +50,7 @@ function App() {
   }
   return (
     <BrowserRouter>
+      <SessionStorageManager />
       <Routes>
         <Route
           path="/"

@@ -24,11 +24,8 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   const [priorities, setPriorities] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
-  // const [selectedFilters, setSelectedFilters] = useState({
-  //   department: [],
-  //   priority: [],
-  //   employee: null,
-  // });
+  const [allTasksFiltered, setAllTasksFiltered] = useState([]);
+
   const [selectedFilters, setSelectedFilters] = useState(function () {
     const permanentFilters = sessionStorage.getItem("selectedFilters");
     return permanentFilters
@@ -39,11 +36,6 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
           employee: null,
         };
   });
-  // const [tempSelectedFilters, setTempSelectedFilters] = useState({
-  //   department: [],
-  //   priority: [],
-  //   employee: null,
-  // });
 
   const [tempSelectedFilters, setTempSelectedFilters] = useState(function () {
     const temporaryFilters = sessionStorage.getItem("tempSelectedFilters");
@@ -93,6 +85,33 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
     }
     fetchTask();
   }, []);
+  useEffect(() => {
+    console.log(allTasks);
+    if (allTasks.length === 0) return;
+    const filtered = allTasks.filter((task) => {
+      const departmentMatch =
+        selectedFilters.department.length === 0 ||
+        selectedFilters.department.some(
+          (dept) => dept.id === task.department.id
+        );
+
+      const priorityMatch =
+        selectedFilters.priority.length === 0 ||
+        selectedFilters.priority.some((prio) => prio.id === task.priority.id);
+
+      const employeeMatch =
+        selectedFilters.employee === null ||
+        selectedFilters.employee.id === task.employee.id;
+
+      return departmentMatch && priorityMatch && employeeMatch;
+    });
+    setAllTasksFiltered(filtered);
+  }, [
+    allTasks,
+    selectedFilters.department,
+    selectedFilters.employee,
+    selectedFilters.priority,
+  ]);
 
   function toggleFilter(filterName) {
     setOpenFilter((prevFilter) => {
@@ -112,43 +131,26 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
           ? prev[filterType].filter((f) => f.id !== item.id)
           : [...prev[filterType], item],
       };
-      // sessionStorage.setItem(
-      //   "tempSelectedFilters",
-      //   JSON.stringify(updatedFilters)
-      // );
+
       return updatedFilters;
     });
   }
 
   function handleSingleSelect(item) {
-    console.log(item);
     setTempSelectedFilters((prev) => {
       console.log(prev);
       const updatedFilters = {
         ...prev,
         employee: prev.employee?.id === item.id ? null : item,
       };
-      // sessionStorage.setItem(
-      //   "tempSelectedFilters",
-      //   JSON.stringify(updatedFilters)
-      // );
+
       return updatedFilters;
     });
   }
-  // function deleteFilter(title, id) {
-  //   console.log(id);
-  //   console.log(tempSelectedFilters[title]);
-  //   setTempSelectedFilters((prev)=>{...prev, })
-  //   tempSelectedFilters[title]
 
-  // }
   function applyFilters() {
     setSelectedFilters(tempSelectedFilters);
-    // sessionStorage.setItem(
-    //   "selectedFilters",
-    //   JSON.stringify(tempSelectedFilters)
-    // );
-    console.log(selectedFilters);
+
     setOpenFilter(null);
   }
   function handleEachFilterDelete(field, id) {
@@ -159,8 +161,6 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
           field === "employee"
             ? null
             : prev[field].filter((each) => {
-                // console.log(each.id);
-                // console.log(id);
                 return each.id !== id;
               }),
       };
@@ -178,20 +178,9 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   }
 
   useEffect(() => {
-    console.log("Saving to selectedFilters:", selectedFilters);
-
     sessionStorage.setItem("selectedFilters", JSON.stringify(selectedFilters));
   }, [selectedFilters]);
-  // useEffect(() => {
-  //   console.log("Saving to tempSelectedFilters:", tempSelectedFilters);
 
-  //   sessionStorage.setItem(
-  //     "tempSelectedFilters",
-  //     JSON.stringify(tempSelectedFilters)
-  //   );
-  // }, [tempSelectedFilters]);
-
-  // console.log(JSON.parse(sessionStorage.getItem("selectedFilters")));
   useEffect(() => {
     return () => {
       if (location.pathname !== "/") {
@@ -386,7 +375,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
         deleteAllFilters={deleteAllFilters}
       />
       <StatusHeadings />
-      <RenderTaskCards allTasks={allTasks} />
+      <RenderTaskCards allTasks={allTasksFiltered} />
     </main>
   );
 }

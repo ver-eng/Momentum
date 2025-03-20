@@ -4,15 +4,19 @@
 .parentCardsDiv {
   width: 1684px;
   margin: 0 auto;
-  display: flex;
-  gap: 52px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 52px;
   margin-bottom: 152px;
 }
 .cardsColumn {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
-  row-gap: 30px;
+  row-gap: 30px; */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 .eachCardDiv {
 }
