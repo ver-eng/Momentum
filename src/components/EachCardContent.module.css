@@ -57,7 +57,7 @@
   justify-content: center;
   align-items: center;
 }
-/* .colorDesign {
+.colorDesign {
   background-color: rgba(255, 102, 168, 1);
 }
 .colorMarketing {
@@ -68,7 +68,7 @@
 }
 .colorLogistics {
   background-color: rgba(137, 182, 255, 1);
-} */
+}
 
 .departmentName {
   font-size: 12px;
