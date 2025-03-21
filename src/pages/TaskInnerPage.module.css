@@ -1,3 +1,34 @@
+.border1 {
+  border: 0.5px solid rgba(8, 165, 8, 1);
+}
+.border2 {
+  border: 0.5px solid rgba(255, 190, 11, 1);
+}
+.border3 {
+  border: 0.5px solid rgba(250, 77, 77, 1);
+}
+.priority1 {
+  color: rgba(8, 165, 8, 1);
+}
+.priority2 {
+  color: rgba(255, 190, 11, 1);
+}
+.priority3 {
+  color: rgba(250, 77, 77, 1);
+}
+.colorDesign {
+  background-color: rgba(255, 102, 168, 1);
+}
+.colorMarketing {
+  background-color: rgba(253, 154, 106, 1);
+}
+.colorTeq {
+  background-color: rgba(255, 216, 109, 1);
+}
+.colorLogistics {
+  background-color: rgba(137, 182, 255, 1);
+}
+
 .innderPageMainDiv {
   width: 1679px;
   margin: 0 auto;
@@ -12,11 +43,97 @@
   flex-direction: column;
   gap: 63px;
 }
+
+.priorityNameDiv {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+}
+.priorityDiv {
+  padding: 4px 5px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+.priorityImg {
+  width: 18px;
+  height: 20px;
+}
+.priorityName {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+}
+.departmentNameDiv {
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+.departmentName {
+  color: #fff;
+  font-weight: 400;
+  font-size: 16px;
+}
+.cardSecondLine {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.taskName {
+  color: rgba(33, 37, 41, 1);
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 100%;
+}
+.taskDescription {
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 1);
+}
+.taskHeading {
+  margin-bottom: 28px;
+  color: rgba(42, 42, 42, 1);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 100%;
+}
 .taskDetailsDivLower {
   width: 493;
   display: flex;
+  gap: 70px;
+}
+.taskDetailsNameDiv {
 }
 .addCommentsDiv {
+}
+.taskDetailsEachDiv {
+  padding: 23px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+}
+.taskDetailsIcon {
+  width: 24px;
+  height: 24px;
+}
+.taskDetailsSpan {
+  color: rgba(71, 71, 71, 1);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+}
+.selectDiv {
+  position: relative;
+  height: 70px;
 }
 .select {
   width: 259px;
@@ -28,7 +145,7 @@
   border-radius: 5px;
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 10px;
 }
 .select:hover {
   cursor: pointer;
@@ -55,10 +172,10 @@
 .optionsList {
   border: 1px solid #8338ec;
   z-index: 100;
-  /* position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%; */
+  position: absolute;
+  /* top: 100%;
+  left: 0; */
+  width: 100%;
   background-color: #fff;
   border: 1px solid #8338ec;
   border-top: none;
@@ -82,4 +199,43 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
+}
+.employeeDiv {
+  height: 70px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 12px 0 14.5px 0;
+}
+.employeedescriptionDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: flex-start;
+}
+.employeedepartment {
+  color: rgba(71, 71, 71, 1);
+  font-size: 11px;
+  font-weight: 300;
+}
+.employeeNameSurname {
+  color: rgba(13, 15, 16, 1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+}
+.deadLineDiv {
+  height: 70px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.deadLinePara {
+  color: rgba(13, 15, 16, 1);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
 }

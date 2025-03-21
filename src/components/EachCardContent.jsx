@@ -19,13 +19,31 @@ function EachCardContent({ each }) {
     <>
       <div className={styles.cardFirstLine}>
         <div className={styles.priorityNameDiv}>
-          <div className={styles.priorityDiv}>
+          <div
+            className={`${styles.priorityDiv} ${
+              each.priority.id === 1
+                ? styles.border1
+                : each.priority.id === 2
+                ? styles.border2
+                : styles.border3
+            }`}
+          >
             <img
               src={each.priority.icon}
               alt="priority icon"
               className={styles.priorityImg}
             />
-            <span className={styles.priorityName}>{each.priority.name}</span>
+            <span
+              className={`${styles.priorityName} ${
+                each.priority.id === 1
+                  ? styles.priority1
+                  : each.priority.id === 2
+                  ? styles.priority2
+                  : styles.priority3
+              }`}
+            >
+              {each.priority.name}
+            </span>
           </div>
           <div
             className={`${styles.departmentNameDiv} ${

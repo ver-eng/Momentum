@@ -14,9 +14,11 @@ function Navigation({ handleOpenModal }) {
   // }
   return (
     <nav className={styles.nav}>
-      <div className={styles.logoDiv}>
-        <img src={logo} alt="Logo" className={styles.logo} />
-      </div>
+      <Link to="/">
+        <div className={styles.logoDiv}>
+          <img src={logo} alt="Logo" className={styles.logo} />
+        </div>
+      </Link>
       <div className={styles.linksDiv}>
         <button className={styles.addEmployeeBtn} onClick={handleOpenModal}>
           თანამშრომლის შექმნა

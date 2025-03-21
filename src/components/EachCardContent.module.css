@@ -13,7 +13,6 @@
   width: 86px;
   height: 26px;
   border-radius: 4px;
-  border: 0.5px solid rgba(255, 190, 11, 1);
   padding: 4px;
   display: flex;
   justify-content: space-around;
@@ -30,7 +29,24 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 150%;
+}
+.border1 {
+  border: 0.5px solid rgba(8, 165, 8, 1);
+}
+.border2 {
+  border: 0.5px solid rgba(255, 190, 11, 1);
+}
+.border3 {
+  border: 0.5px solid rgba(250, 77, 77, 1);
+}
+.priority1 {
+  color: rgba(8, 165, 8, 1);
+}
+.priority2 {
   color: rgba(255, 190, 11, 1);
+}
+.priority3 {
+  color: rgba(250, 77, 77, 1);
 }
 .departmentNameDiv {
   /* width: 88px; */
@@ -41,7 +57,7 @@
   justify-content: center;
   align-items: center;
 }
-.colorDesign {
+/* .colorDesign {
   background-color: rgba(255, 102, 168, 1);
 }
 .colorMarketing {
@@ -52,7 +68,7 @@
 }
 .colorLogistics {
   background-color: rgba(137, 182, 255, 1);
-}
+} */
 
 .departmentName {
   font-size: 12px;
