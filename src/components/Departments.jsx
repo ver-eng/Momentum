@@ -41,13 +41,14 @@ function Depatments({
   // };
   const handleOptionClick = (dept) => {
     onChange("department", { id: dept.id, name: dept.name });
-    onChange("employee", {
-      id: null,
-      name: "",
-      surname: "",
-      avatar: "",
-      department_id: null,
-    });
+    if (taskData.department.id !== null && taskData.employee.id !== null)
+      onChange("employee", {
+        id: null,
+        name: "",
+        surname: "",
+        avatar: "",
+        department_id: null,
+      });
     handleSelectOpen(null);
   };
 
@@ -61,7 +62,13 @@ function Depatments({
 
         <div ref={selectRef} className={styles.selectDiv}>
           <div
-            className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
+            className={`${styles.select} ${
+              dataValidation.department === null
+                ? styles.nameInputOriginal
+                : dataValidation.department === false
+                ? styles.nameInputRed
+                : styles.nameInputGreen
+            } ${isOpen ? styles.openSelect : ""}`}
             onClick={() => handleSelectOpen("departments")}
           >
             <p className={styles.selectTitle}>

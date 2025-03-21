@@ -71,7 +71,13 @@ function Priority({
 
         <div ref={selectRef} className={styles.selectDiv}>
           <div
-            className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
+            className={`${styles.select} ${
+              dataValidation.priority === null
+                ? styles.nameInputOriginal
+                : dataValidation.priority === false
+                ? styles.nameInputRed
+                : styles.nameInputGreen
+            } ${isOpen ? styles.openSelect : ""}`}
             onClick={() => handleSelectOpen("priority")}
           >
             <div className={styles.selectTitle}>

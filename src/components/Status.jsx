@@ -67,7 +67,13 @@ function Status({
 
         <div ref={selectRef} className={styles.selectDiv}>
           <div
-            className={`${styles.select} ${isOpen ? styles.openSelect : ""}`}
+            className={`${styles.select} ${
+              dataValidation.status === null
+                ? styles.nameInputOriginal
+                : dataValidation.status === false
+                ? styles.nameInputRed
+                : styles.nameInputGreen
+            } ${isOpen ? styles.openSelect : ""}`}
             onClick={() => handleSelectOpen("status")}
           >
             <div className={styles.selectTitle}>

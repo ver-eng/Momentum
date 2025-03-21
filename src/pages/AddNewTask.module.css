@@ -56,3 +56,6 @@
   background-color: #b588f4;
   cursor: pointer;
 }
+/* .submitBtn:disabled {
+  cursor: not-allowed;
+} */

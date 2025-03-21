@@ -175,7 +175,8 @@
   position: absolute;
   /* top: 100%;
   left: 0; */
-  width: 100%;
+  /* width: 100%; */
+  width: 259px;
   background-color: #fff;
   border: 1px solid #8338ec;
   border-top: none;

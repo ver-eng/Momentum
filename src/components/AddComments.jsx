@@ -69,6 +69,21 @@ function AddComments({ taskId }) {
       }
     });
   }
+  function getTotalComments(comments) {
+    let count = 0;
+
+    for (let i = 0; i < comments.length; i++) {
+      count += 1;
+      if (comments[i].sub_comments) {
+        count += comments[i].sub_comments.length;
+      }
+    }
+
+    return count;
+  }
+
+  const totalCommentsCount = getTotalComments(fetchedComments);
+
   return (
     <div className={styles.addCommentsDiv}>
       <div className={styles.addCommentsInnerDiv}>
@@ -91,9 +106,7 @@ function AddComments({ taskId }) {
         <div className={styles.headingDiv}>
           <h3 className={styles.commentsPara}>
             კომენტარები
-            <span className={styles.commentsAmount}>
-              {fetchedComments.length}
-            </span>
+            <span className={styles.commentsAmount}>{totalCommentsCount}</span>
           </h3>
         </div>
         <div className={styles.renderedCommentsDiv}>

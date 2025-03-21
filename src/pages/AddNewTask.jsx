@@ -125,7 +125,7 @@ function AddNewTask({ handleOpenModal, employees }) {
         status: !!value.id,
       }));
     }
-    if (field === "employee" && value.id !== null) {
+    if (field === "employee") {
       setDataValidation((prev) => ({
         ...prev,
         employee: !!value.id,
@@ -309,7 +309,11 @@ function AddNewTask({ handleOpenModal, employees }) {
                   </div>
                 </div>
                 <div className={styles.submitBtnDiv}>
-                  <button type="submit" className={styles.submitBtn}>
+                  <button
+                    type="submit"
+                    className={styles.submitBtn}
+                    // disabled={!validateBeforeSubmit()}
+                  >
                     დავალების შექმნა
                   </button>
                 </div>

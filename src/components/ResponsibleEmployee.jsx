@@ -40,28 +40,11 @@ function ResponsibleEmployee({
   const [deptID, setSeptId] = useState(null);
   const [employeeError, setEmployeeError] = useState(null);
 
-  // useEffect(() => {
-  //   async function fetchEmployee() {
-  //     try {
-  //       const response = await axios.get(EMPLOYEE_URL, {
-  //         headers: { Authorization: `Bearer ${API_TOKEN}` },
-  //       });
-
-  //       setEmployees(response.data);
-  //     } catch (error) {
-  //       console.log("error", error);
-  //     }
-  //   }
-
-  //   fetchEmployee();
-  // }, []);
-
   useEffect(
     function () {
       const filteredEmp = employees.filter((employee) => {
         return employee.department.id == taskData.department.id;
       });
-      // console.log(filteredEmp);
       setSelectedOption((prev) => ({
         ...prev,
         id: null,
@@ -75,24 +58,9 @@ function ResponsibleEmployee({
     },
     [employees, taskData.department.id]
   );
-  // const toggleDropdown = () => {
-  //   setIsOpen((prev) => !prev);
-  // };
-  // useRef(
-  //   function () {
-  //     onChange("employee", {
-  //       id: null,
-  //       name: "",
-  //       surname: "",
-  //       avatar: "",
-  //       department_id: null,
-  //     });
-  //   },
-  //   [taskData.department.id]
-  // );
+
   const handleOptionClick = (employee) => {
     console.log(employee);
-    // setSelectedOption(employee.name);
     setSelectedOption((prev) => ({
       ...prev,
       id: employee.id,
@@ -117,120 +85,134 @@ function ResponsibleEmployee({
   return (
     <div className={`${styles.department} customSelect`}>
       <div className={styles.departmentInnerDiv}>
-        <div className={styles.departmentLabel}>
-          <span
-            className={
-              taskData.department.id !== null
-                ? styles.departmentSpan
-                : styles.inactiveDepartmentSpan
-            }
-          >
-            პასუხისმგებელი თანამშრომელი
-          </span>
-          <img
-            src={taskData.department.id !== null ? Asterisk : inactiveStar}
-            className={styles.departmentImg}
-          />
-        </div>
-
-        <div ref={selectRef} className={styles.selectDiv}>
-          <div
-            className={`${
-              taskData.department.id !== null
-                ? styles.select
-                : styles.inactiveSelect
-            } ${
-              isOpen && taskData.department.id !== null ? styles.openSelect : ""
-            }`}
-            onClick={() => handleSelectOpen("responsibleemployee")}
-          >
-            <div className={styles.selectTitle}>
-              {taskData.employee.name ? (
-                <>
-                  <div className={styles.displayIconDiv}>
-                    <img
-                      src={taskData.employee.avatar}
-                      alt="Icon"
-                      className={styles.displayIcon}
-                    />
-                  </div>
-
-                  <p className={styles.displayPara}>
-                    {taskData.employee.name + " " + taskData.employee.surname}
-                  </p>
-                </>
-              ) : (
-                ""
-              )}
-              {/* {selectedOption ||
-                (employees.length > 0
-                  ? employees[0].name
-                  : "ადმინისტრაციის დეპარტამენტი")} */}
-              {/* {selectedOption
-                ? selectedOption.name
-                : employees.length > 0
-                ? employees[0].name
-                : "ადმინისტრაციის დეპარტამენტი"} */}
-            </div>
-            <img
-              src={
-                taskData.department.id !== null ? arrowDown : inactivearrowDown
-              }
-              alt="Arrow"
-              className={`${styles.arrowIcon} ${isOpen ? styles.rotate : ""}`}
-            />
-          </div>
-
-          {isOpen && taskData.department.id !== null ? (
-            <ul className={styles.optionsList}>
-              <li
-                className={`${styles.optionItem} ${styles.addEmployeeLi}`}
-                onClick={() => handleOpenModal()}
+        {taskData.department.id !== null && (
+          <>
+            <div className={styles.departmentLabel}>
+              <span
+                className={
+                  taskData.department.id !== null
+                    ? styles.departmentSpan
+                    : styles.inactiveDepartmentSpan
+                }
               >
-                {/* <img
+                პასუხისმგებელი თანამშრომელი
+              </span>
+              <img
+                src={taskData.department.id !== null ? Asterisk : inactiveStar}
+                className={styles.departmentImg}
+              />
+            </div>
+
+            <div ref={selectRef} className={styles.selectDiv}>
+              <div
+                className={`${
+                  taskData.department.id !== null
+                    ? styles.select
+                    : styles.inactiveSelect
+                } ${
+                  dataValidation.employee === null
+                    ? styles.nameInputOriginal
+                    : dataValidation.employee === false
+                    ? styles.nameInputRed
+                    : styles.nameInputGreen
+                } ${
+                  isOpen && taskData.department.id !== null
+                    ? styles.openSelect
+                    : ""
+                }`}
+                onClick={() => handleSelectOpen("responsibleemployee")}
+              >
+                <div className={styles.selectTitle}>
+                  {taskData.employee.name ? (
+                    <>
+                      <div className={styles.displayIconDiv}>
+                        <img
+                          src={taskData.employee.avatar}
+                          alt="Icon"
+                          className={styles.displayIcon}
+                        />
+                      </div>
+
+                      <p className={styles.displayPara}>
+                        {taskData.employee.name +
+                          " " +
+                          taskData.employee.surname}
+                      </p>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <img
+                  src={
+                    taskData.department.id !== null
+                      ? arrowDown
+                      : inactivearrowDown
+                  }
+                  alt="Arrow"
+                  className={`${styles.arrowIcon} ${
+                    isOpen && taskData.department.id !== null
+                      ? styles.rotate
+                      : ""
+                  }`}
+                />
+              </div>
+
+              {isOpen && taskData.department.id !== null ? (
+                <ul className={styles.optionsList}>
+                  <li
+                    className={`${styles.optionItem} ${styles.addEmployeeLi}`}
+                    onClick={() => handleOpenModal()}
+                  >
+                    {/* <img
                   src={addEmployeeIcon}
                   alt="add employee icon"
                   className={styles.addEmployeeIcon}
                 /> */}
-                <div className={styles.plusDiv}>
-                  <span className={styles.plus}>+</span>
-                </div>
-                <span className={styles.addEmployeeBtn}>
-                  დაამატე თანამშრომელი
-                </span>
-              </li>
-              {filteredEmployees.map((employee) => (
-                <li
-                  key={employee.id}
-                  className={styles.optionItem}
-                  onClick={() => handleOptionClick(employee)}
+                    <div className={styles.plusDiv}>
+                      <span className={styles.plus}>+</span>
+                    </div>
+                    <span className={styles.addEmployeeBtn}>
+                      დაამატე თანამშრომელი
+                    </span>
+                  </li>
+                  {filteredEmployees.map((employee) => (
+                    <li
+                      key={employee.id}
+                      className={styles.optionItem}
+                      onClick={() => handleOptionClick(employee)}
+                    >
+                      <img
+                        src={employee.avatar}
+                        className={styles.avatarIcon}
+                      />
+                      <span className={styles.nameSurname}>
+                        {employee.name} {employee.surname}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className={styles.errorDiv}>
+              <div className={styles.firstError}>
+                <p
+                  className={
+                    dataValidation.employee === null
+                      ? styles.errorSpanOriginal
+                      : dataValidation.employee === false
+                      ? styles.errorSpanRed
+                      : styles.errorSpanGreen
+                  }
                 >
-                  <img src={employee.avatar} className={styles.avatarIcon} />
-                  <span className={styles.nameSurname}>
-                    {employee.name} {employee.surname}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className={styles.errorDiv}>
-          <div className={styles.firstError}>
-            <p
-              className={
-                dataValidation.employee === null
-                  ? styles.errorSpanOriginal
-                  : dataValidation.employee === false
-                  ? styles.errorSpanRed
-                  : styles.errorSpanGreen
-              }
-            >
-              აირჩიე თანამშრომელი
-            </p>
-          </div>
-        </div>
+                  აირჩიე თანამშრომელი
+                </p>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

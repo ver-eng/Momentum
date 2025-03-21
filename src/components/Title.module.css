@@ -30,6 +30,15 @@
   line-height: 100%;
   color: #0d0f10;
 }
+.nameInputOriginal {
+  order: 1px solid rgba(222, 226, 230, 1);
+}
+.nameInputRed {
+  border: 1px solid rgba(250, 77, 77, 1);
+}
+.nameInputGreen {
+  border: 1px solid rgba(8, 165, 8, 1);
+}
 /* .errorTick {
   width: 16px;
   height: 16px;

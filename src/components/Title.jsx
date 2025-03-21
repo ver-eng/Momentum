@@ -18,7 +18,17 @@ function Title({ titleChange, taskData, dataValidation }) {
         id="name"
         name="name"
         type="text"
-        className={styles.nameInput}
+        className={`${styles.nameInput}
+
+        ${
+          (dataValidation.name.min === null) &
+          (dataValidation.name.max === null)
+            ? styles.nameInputOriginal
+            : dataValidation.name.min === false ||
+              dataValidation.name.max === false
+            ? styles.nameInputRed
+            : styles.nameInputGreen
+        } `}
         value={taskData.name}
         onChange={handleChange}
       />

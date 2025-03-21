@@ -17,7 +17,13 @@ function Description({ onChange, taskData, dataValidation }) {
         id="description"
         name="description"
         type="text"
-        className={styles.descriptionInput}
+        className={`${styles.descriptionInput} ${
+          !dataValidation.description.isTyped
+            ? styles.nameInputOriginal
+            : dataValidation.description.min && dataValidation.description.max
+            ? styles.nameInputGreen
+            : styles.nameInputRed
+        }`}
         // maxLength="255"
         value={taskData.description}
         onChange={handleChange}
