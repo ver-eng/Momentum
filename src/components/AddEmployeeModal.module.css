@@ -14,11 +14,14 @@
 .sectionDiv {
   width: 913px;
   /* height: 766px; */
+  max-height: 90vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
   border-radius: 10px;
   background-color: #fff;
   position: absolute;
   top: 118px;
-  left: 580px;
+  left: 503px;
   padding: 40px 50px 60px 50px;
 }
 .mainCancelDiv {
@@ -45,6 +48,7 @@
   margin-bottom: 45px;
 }
 .addEmployeePara {
+  height: 38px;
   text-align: center;
   font-family: "FiraGO", sans-serif;
   font-weight: 500;

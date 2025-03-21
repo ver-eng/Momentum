@@ -35,11 +35,13 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
   const selectRef = useRef(null);
 
   const [nameErrors, setNameErrors] = useState({
-    length: null,
+    minLength: null,
+    maxLength: null,
     letters: null,
   });
   const [surnameErrors, setSurnameErrors] = useState({
-    length: null,
+    minLength: null,
+    maxLength: null,
     letters: null,
   });
   const [imgErrors, setImgErrors] = useState({
@@ -72,31 +74,27 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // function validateLetters(value) {
-  //   return /^[ა-ჰa-zA-Z]+$/.test(value);
-  // }
   function validateLetters(value) {
-    return /^(?=(.*[ა-ჰa-zA-Z]){2})[ა-ჰa-zA-Z\s]+$/.test(value);
+    return /^[ა-ჰa-zA-Z\s]+$/.test(value);
   }
-  function validateLength(value) {
-    return value.length >= 2 && value.length <= 255;
+  function isMinLengthValid(value) {
+    return value.trim().length >= 2;
+  }
+
+  function isMaxLengthValid(value) {
+    return value.trim().length <= 255;
   }
 
   function handleNameChange(e) {
     const value = e.target.value;
     setName(value);
     validateName(value);
-    // setNameErrors((prevErrors) => ({
-    //   ...prevErrors,
-    //   length: validateLength(value),
-    //   letters: validateLetters(value),
-    // }));
-    // console.log(nameErrors.length);
   }
   function validateName(value) {
     setNameErrors((prevErrors) => ({
       ...prevErrors,
-      length: validateLength(value),
+      minLength: isMinLengthValid(value),
+      maxLength: isMaxLengthValid(value),
       letters: validateLetters(value),
     }));
   }
@@ -106,7 +104,8 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
 
     setSurnameErrors((prevErrors) => ({
       ...prevErrors,
-      length: validateLength(value),
+      minLength: isMinLengthValid(value),
+      maxLength: isMaxLengthValid(value),
       letters: validateLetters(value),
     }));
   }
@@ -150,23 +149,29 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
     if (input) input.value = "";
   }
   function isFormValid() {
-    const isNameValid = nameErrors.length && nameErrors.letters;
+    const isNameValid =
+      nameErrors.minLength && nameErrors.letters && nameErrors.maxLength;
     if (!isNameValid) {
       setNameErrors((prevErrors) => ({
         ...prevErrors,
-        length: false,
-        letters: false,
+        minLength: isMinLengthValid(name),
+        maxLength: isMaxLengthValid(name),
+        letters: validateLetters(name),
       }));
-      setName("");
+      // setName("");
     }
-    const isSurnameValid = surnameErrors.length && surnameErrors.letters;
+    const isSurnameValid =
+      surnameErrors.minLength &&
+      surnameErrors.maxLength &&
+      surnameErrors.letters;
     if (!isSurnameValid) {
       setSurnameErrors((prevErrors) => ({
         ...prevErrors,
-        length: false,
-        letters: false,
+        minLength: isMinLengthValid(surname),
+        maxLength: isMaxLengthValid(surname),
+        letters: validateLetters(surname),
       }));
-      setSurname("");
+      // setSurname("");
     }
     const isImgValid = imgErrors.type && imgErrors.size;
     if (!isImgValid) {
@@ -222,8 +227,8 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
 
     handleDeleteImage();
 
-    setNameErrors({ length: null, letters: null });
-    setSurnameErrors({ length: null, letters: null });
+    setNameErrors({ minLength: null, maxLength: null, letters: null });
+    setSurnameErrors({ minLength: null, maxLength: null, letters: null });
     setImgErrors({ type: null, size: null });
     setDepartError(null);
   }
@@ -267,9 +272,9 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
                   <div className={styles.firstError}>
                     <img
                       src={
-                        nameErrors.length === null
+                        nameErrors.minLength === null
                           ? check
-                          : nameErrors.length
+                          : nameErrors.minLength
                           ? checkGreen
                           : checkRed
                       }
@@ -277,14 +282,37 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
                     />
                     <span
                       className={
-                        nameErrors.length === null
+                        nameErrors.minLength === null
                           ? styles.errorSpanOriginal
-                          : nameErrors.length
+                          : nameErrors.minLength
                           ? styles.errorSpanGreen
                           : styles.errorSpanRed
                       }
                     >
-                      მინიმუმ 2, მაქსიმუმ 255 სიმბოლო
+                      მინიმუმ 2 სიმბოლო
+                    </span>
+                  </div>
+                  <div className={styles.firstError}>
+                    <img
+                      src={
+                        nameErrors.maxLength === null
+                          ? check
+                          : nameErrors.maxLength
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        nameErrors.maxLength === null
+                          ? styles.errorSpanOriginal
+                          : nameErrors.maxLength
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
+                      მაქსიმუმ 255 სიმბოლო
                     </span>
                   </div>
                   <div className={styles.secondError}>
@@ -329,9 +357,9 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
                   <div className={styles.firstError}>
                     <img
                       src={
-                        surnameErrors.length === null
+                        surnameErrors.minLength === null
                           ? check
-                          : surnameErrors.length
+                          : surnameErrors.minLength
                           ? checkGreen
                           : checkRed
                       }
@@ -339,14 +367,37 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
                     />
                     <span
                       className={
-                        surnameErrors.length === null
+                        surnameErrors.minLength === null
                           ? styles.errorSpanOriginal
-                          : surnameErrors.length
+                          : surnameErrors.minLength
                           ? styles.errorSpanGreen
                           : styles.errorSpanRed
                       }
                     >
-                      მინიმუმ 2, მაქსიმუმ 255 სიმბოლო
+                      მინიმუმ 2 სიმბოლო
+                    </span>
+                  </div>
+                  <div className={styles.firstError}>
+                    <img
+                      src={
+                        surnameErrors.maxLength === null
+                          ? check
+                          : surnameErrors.maxLength
+                          ? checkGreen
+                          : checkRed
+                      }
+                      className={styles.errorTick}
+                    />
+                    <span
+                      className={
+                        surnameErrors.maxLength === null
+                          ? styles.errorSpanOriginal
+                          : surnameErrors.maxLength
+                          ? styles.errorSpanGreen
+                          : styles.errorSpanRed
+                      }
+                    >
+                      მაქსიმუმ 255 სიმბოლო
                     </span>
                   </div>
                   <div className={styles.secondError}>
@@ -452,7 +503,7 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
                       }
                       className={styles.errorTick}
                     />
-                    <span
+                    <p
                       className={
                         imgErrors.type === null
                           ? styles.errorSpanOriginal
@@ -462,7 +513,7 @@ function AddEmployeeModal({ show, onClose, fetchEmployee }) {
                       }
                     >
                       ფაილი უნდა იყოს სურათი
-                    </span>
+                    </p>
                   </div>
                   <div className={styles.secondError}>
                     <img

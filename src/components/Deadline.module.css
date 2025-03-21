@@ -1,5 +1,3 @@
-.dateDiv {
-}
 .departmentLabel {
   margin-bottom: 6px;
 }
@@ -19,61 +17,9 @@
   background-color: #fff;
 }
 
-.dateInput::placeholder {
-}
-.MuiInputBase input {
-  width: 1000px;
-}
-
-:global(.MuiFormControl-root) {
-  width: 318px;
-  height: 45px;
-  border-radius: 5px;
-  border: 1px solid rgba(222, 226, 230, 1) !important;
-  outline: none !important;
-  box-shadow: none !important;
-  transition: none !important;
-}
-:global(.MuiInputBase-root) {
-  height: inherit;
-  padding: 0;
-  padding: 14px !important;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center in !important;
-  outline: none !important;
-  box-shadow: none !important;
-  transition: none !important;
-}
-
-:global(.MuiInputBase-input) {
-  color: rgba(173, 181, 189, 1) !important;
-  font-size: 14px;
-  line-height: 20px;
-  height: 20px !important;
-}
-:global(.MuiInputAdornment-root) {
-  height: 16px;
-  width: 16px;
-  margin-right: 0 !important;
-  margin-right: 6px !important;
-}
-
 .dateIcon {
   height: 16px;
   width: 16px;
-}
-
-:global(.MuiFormControl-root),
-:global(.MuiInputBase-root),
-:global(.MuiOutlinedInput-root) {
-  outline: none !important;
-  box-shadow: none !important;
-  transition: none !important;
-}
-
-:global(.MuiOutlinedInput-notchedOutline) {
-  border: none !important;
 }
 
 .errorSpanOriginal {
@@ -94,6 +40,7 @@
 .dateInput {
   outline: none;
   width: 318px;
+  /* width: 218px; */
   border: 1px solid rgba(222, 226, 230, 1);
   padding: 12.5px 14px;
   font-size: 14px;
