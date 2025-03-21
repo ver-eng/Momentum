@@ -1,16 +1,21 @@
 import Navigation from "../components/Navigation";
 import styles from "./TasksPage.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import arrowDown from "../assets/icons/arrow-down.svg";
+import PurpleTick from "../assets/icons/PurpleTick.svg";
+import PurpleArrowDown from "../assets/icons/PurpleArrowDown.svg";
 import filterIcon from "../assets/icons/filterIcon.svg";
 import FilterList from "../components/FilterList";
 import { useLocation } from "react-router-dom";
 import StatusHeadings from "../components/StatusHeadings";
 import RenderTaskCards from "../components/RenderTaskCards";
 
-const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
-const BASE_URL = "https://momentum.redberryinternship.ge/api";
+import { API_TOKEN, BASE_URL } from "../constants";
+
+// const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
+// const BASE_URL = "https://momentum.redberryinternship.ge/api";
+
 const DEPARTMENT_URL = `${BASE_URL}/departments`;
 const PRIORITY_URL = `${BASE_URL}/priorities`;
 const EMPLOYEE_URL = `${BASE_URL}/employees`;
@@ -25,7 +30,7 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   const [employees, setEmployees] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
   const [allTasksFiltered, setAllTasksFiltered] = useState([]);
-
+  const filterRef = useRef(null);
   const [selectedFilters, setSelectedFilters] = useState(function () {
     const permanentFilters = sessionStorage.getItem("selectedFilters");
     return permanentFilters
@@ -182,6 +187,18 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
   }, [selectedFilters]);
 
   useEffect(() => {
+    function handleClickOutside(event) {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setOpenFilter(null);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
     return () => {
       if (location.pathname !== "/") {
         sessionStorage.removeItem("selectedFilters");
@@ -202,15 +219,25 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
           <div className={styles.parentHeader}>
             <h1 className={styles.header}>დავალებების გვერდი</h1>
           </div>
-          <div className={styles.filtersMainDiv}>
+          <div className={styles.filtersMainDiv} ref={filterRef}>
             <div className={styles.filter}>
               <button
                 className={styles.filterButton}
                 onClick={() => toggleFilter("department")}
               >
-                <span className={styles.filterButtonSpan}>დეპარტამენტი</span>
+                <span
+                  className={`${
+                    openFilter === "department"
+                      ? styles.filterButtonSpanPurple
+                      : styles.filterButtonSpan
+                  }`}
+                >
+                  დეპარტამენტი
+                </span>
                 <img
-                  src={arrowDown}
+                  src={
+                    openFilter === "department" ? PurpleArrowDown : arrowDown
+                  }
                   alt="Arrow"
                   className={`${styles.arrowIcon} ${
                     openFilter === "department" ? styles.rotate : ""
@@ -219,39 +246,43 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
               </button>
 
               {openFilter === "department" && (
-                <ul className={`${styles.filterList} ${styles.FirstList}`}>
-                  {departments.map((dept) => (
-                    <li
-                      key={dept.id}
-                      className={`${styles.filterListItem} ${
-                        tempSelectedFilters.department.some(
-                          (d) => d.id === dept.id
-                        )
-                          ? styles.selected
-                          : ""
-                      }`}
-                      onClick={() => handleMultiSelect("department", dept)}
+                <ul
+                  className={`${styles.filterListScroll} ${styles.FirstList}`}
+                >
+                  <div className={styles.filterListFlex}>
+                    {departments.map((dept) => (
+                      <li
+                        key={dept.id}
+                        className={`${styles.filterListItem} ${
+                          tempSelectedFilters.department.some(
+                            (d) => d.id === dept.id
+                          )
+                            ? styles.selected
+                            : ""
+                        }`}
+                        onClick={() => handleMultiSelect("department", dept)}
+                      >
+                        <div className={styles.checkIconDiv}>
+                          {tempSelectedFilters.department.some(
+                            (d) => d.id === dept.id
+                          ) && (
+                            <img
+                              src={filterIcon}
+                              alt="Selected"
+                              className={styles.checkIcon}
+                            />
+                          )}
+                        </div>
+                        {dept.name}
+                      </li>
+                    ))}
+                    <button
+                      className={styles.selectBtn}
+                      onClick={() => applyFilters("department")}
                     >
-                      <div className={styles.checkIconDiv}>
-                        {tempSelectedFilters.department.some(
-                          (d) => d.id === dept.id
-                        ) && (
-                          <img
-                            src={filterIcon}
-                            alt="Selected"
-                            className={styles.checkIcon}
-                          />
-                        )}
-                      </div>
-                      {dept.name}
-                    </li>
-                  ))}
-                  <button
-                    className={styles.selectBtn}
-                    onClick={() => applyFilters("department")}
-                  >
-                    არჩევა
-                  </button>
+                      არჩევა
+                    </button>
+                  </div>
                 </ul>
               )}
             </div>
@@ -261,10 +292,18 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                 className={styles.filterButton}
                 onClick={() => toggleFilter("priority")}
               >
-                <span className={styles.filterButtonSpan}>პრიორიტეტი</span>
+                <span
+                  className={`${
+                    openFilter === "priority"
+                      ? styles.filterButtonSpanPurple
+                      : styles.filterButtonSpan
+                  }`}
+                >
+                  პრიორიტეტი
+                </span>
 
                 <img
-                  src={arrowDown}
+                  src={openFilter === "priority" ? PurpleArrowDown : arrowDown}
                   alt="Arrow"
                   className={`${styles.arrowIcon} ${
                     openFilter === "priority" ? styles.rotate : ""
@@ -273,39 +312,43 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
               </button>
 
               {openFilter === "priority" && (
-                <ul className={`${styles.filterList} ${styles.SecondList}`}>
-                  {priorities.map((priority) => (
-                    <li
-                      key={priority.id}
-                      className={`${styles.filterListItem} ${
-                        tempSelectedFilters.priority.some(
-                          (p) => p.id === priority.id
-                        )
-                          ? styles.selected
-                          : ""
-                      }`}
-                      onClick={() => handleMultiSelect("priority", priority)}
+                <ul
+                  className={`${styles.filterListScroll} ${styles.SecondList}`}
+                >
+                  <div className={styles.filterListFlex}>
+                    {priorities.map((priority) => (
+                      <li
+                        key={priority.id}
+                        className={`${styles.filterListItem} ${
+                          tempSelectedFilters.priority.some(
+                            (p) => p.id === priority.id
+                          )
+                            ? styles.selected
+                            : ""
+                        }`}
+                        onClick={() => handleMultiSelect("priority", priority)}
+                      >
+                        <div className={styles.checkIconDivPurple}>
+                          {tempSelectedFilters.priority.some(
+                            (p) => p.id === priority.id
+                          ) && (
+                            <img
+                              src={PurpleTick}
+                              alt="Selected"
+                              className={styles.checkIcon}
+                            />
+                          )}
+                        </div>
+                        {priority.name}
+                      </li>
+                    ))}
+                    <button
+                      className={styles.selectBtn}
+                      onClick={() => applyFilters("priority")}
                     >
-                      <div className={styles.checkIconDiv}>
-                        {tempSelectedFilters.priority.some(
-                          (p) => p.id === priority.id
-                        ) && (
-                          <img
-                            src={filterIcon}
-                            alt="Selected"
-                            className={styles.checkIcon}
-                          />
-                        )}
-                      </div>
-                      {priority.name}
-                    </li>
-                  ))}
-                  <button
-                    className={styles.selectBtn}
-                    onClick={() => applyFilters("priority")}
-                  >
-                    არჩევა
-                  </button>
+                      არჩევა
+                    </button>
+                  </div>
                 </ul>
               )}
             </div>
@@ -315,10 +358,18 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
                 className={styles.filterButton}
                 onClick={() => toggleFilter("employee")}
               >
-                <span className={styles.filterButtonSpan}>თანამშრომელი</span>
+                <span
+                  className={`${
+                    openFilter === "employee"
+                      ? styles.filterButtonSpanPurple
+                      : styles.filterButtonSpan
+                  }`}
+                >
+                  თანამშრომელი
+                </span>
 
                 <img
-                  src={arrowDown}
+                  src={openFilter === "employee" ? PurpleArrowDown : arrowDown}
                   alt="Arrow"
                   className={`${styles.arrowIcon} ${
                     openFilter === "employee" ? styles.rotate : ""
@@ -327,55 +378,65 @@ function TasksPage({ handleOpenModal, handleCloseModal, showModal }) {
               </button>
 
               {openFilter === "employee" && (
-                <ul className={`${styles.filterList} ${styles.ThirdList}`}>
-                  {employees.map((emp) => (
-                    <li
-                      key={emp.id}
-                      className={`${styles.filterListItem} ${
-                        tempSelectedFilters.employee?.id === emp.id
-                          ? styles.selected
-                          : ""
-                      }`}
-                      onClick={() => handleSingleSelect(emp)}
-                    >
-                      <div className={styles.checkIconDiv}>
-                        {tempSelectedFilters.employee?.id === emp.id && (
+                <ul
+                  className={`${styles.filterListScroll} ${styles.ThirdList}`}
+                >
+                  <div className={`${styles.filterListFlex}`}>
+                    {employees.map((emp) => (
+                      <li
+                        key={emp.id}
+                        className={`${styles.filterListItem} ${
+                          tempSelectedFilters.employee?.id === emp.id
+                            ? styles.selected
+                            : ""
+                        }`}
+                        onClick={() => handleSingleSelect(emp)}
+                      >
+                        <div className={styles.checkIconDivPurple}>
+                          {tempSelectedFilters.employee?.id === emp.id && (
+                            <img
+                              src={PurpleTick}
+                              alt="Selected"
+                              className={styles.checkIcon}
+                            />
+                          )}
+                        </div>
+                        <div className={styles.filterItemLast}>
                           <img
-                            src={filterIcon}
-                            alt="Selected"
-                            className={styles.checkIcon}
+                            src={emp.avatar}
+                            alt={emp.name}
+                            className={styles.avatar}
                           />
-                        )}
-                      </div>
-                      <div className={styles.filterItemLast}>
-                        <img
-                          src={emp.avatar}
-                          alt={emp.name}
-                          className={styles.avatar}
-                        />
-                        {emp.name} {emp.surname}
-                      </div>
-                    </li>
-                  ))}
-                  <button
-                    className={styles.selectBtn}
-                    onClick={() => applyFilters("employee")}
-                  >
-                    არჩევა
-                  </button>
+                          {emp.name} {emp.surname}
+                        </div>
+                      </li>
+                    ))}
+                    <button
+                      className={styles.selectBtn}
+                      onClick={() => applyFilters("employee")}
+                    >
+                      არჩევა
+                    </button>
+                  </div>
                 </ul>
               )}
             </div>
           </div>
         </div>
       </section>
-      <FilterList
-        selectedFilters={selectedFilters}
-        handleEachFilterDelete={handleEachFilterDelete}
-        deleteAllFilters={deleteAllFilters}
-      />
-      <StatusHeadings />
-      <RenderTaskCards allTasks={allTasksFiltered} />
+      <section className={styles.parentSection}>
+        <FilterList
+          selectedFilters={selectedFilters}
+          handleEachFilterDelete={handleEachFilterDelete}
+          deleteAllFilters={deleteAllFilters}
+        />
+      </section>
+      <section className={styles.parentSection}>
+        <StatusHeadings />
+      </section>
+      <section className={styles.parentSection}>
+        <RenderTaskCards allTasks={allTasksFiltered} />
+      </section>
     </main>
   );
 }

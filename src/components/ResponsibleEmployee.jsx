@@ -12,10 +12,9 @@ import { useEffect, useRef, useState } from "react";
 import arrowDown from "../assets/icons/arrow-down.svg";
 import axios from "axios";
 import { setDate } from "date-fns";
+import { API_TOKEN, BASE_URL } from "../constants";
 
-const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
-const BASE_URL = `https://momentum.redberryinternship.ge/api`;
-const EMPLOYEE_URL = "https://momentum.redberryinternship.ge/api/employees";
+const EMPLOYEE_URL = `${BASE_URL}/employees`;
 function ResponsibleEmployee({
   openSelect,
   handleSelectOpen,

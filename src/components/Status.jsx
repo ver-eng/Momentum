@@ -2,17 +2,12 @@ import styles from "./Status.module.css";
 
 import Asterisk from "../assets/icons/Asterisk.svg";
 import { useEffect, useRef, useState } from "react";
+import { API_TOKEN, BASE_URL } from "../constants";
 
-// import check from "../assets/icons/check.svg";
-// import checkRed from "../assets/icons/check-red.svg";
-// import checkGreen from "../assets/icons/check-green.svg";
-// import arrowDown from "../assets/icons/arrow-down.svg";
 import arrowDown from "../assets/icons/arrow-down.svg";
 import axios from "axios";
 
-const API_TOKEN = "9e6a0a16-99cf-4a40-a05d-da24dfeff3d4";
-const BASE_URL = `https://momentum.redberryinternship.ge/api`;
-const STATUS_URL = "https://momentum.redberryinternship.ge/api/statuses";
+const STATUS_URL = `${BASE_URL}/statuses`;
 
 function Status({
   openSelect,

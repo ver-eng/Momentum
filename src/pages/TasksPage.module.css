@@ -50,6 +50,11 @@
   font-size: 16px;
   color: #0d0f10;
 }
+.filterButtonSpanPurple {
+  color: rgba(131, 56, 236, 1);
+  font-weight: 400;
+  font-size: 16px;
+}
 .arrowIcon {
   width: 14px;
   transition: transform 0.2s ease;
@@ -57,20 +62,29 @@
 .rotate {
   transform: rotate(180deg);
 }
-.filterList {
+.filterListScroll {
   position: absolute;
-
   background: #fff;
   z-index: 2;
   width: 688px;
+  border: 0.5px solid #8338ec;
   border-radius: 10px;
   padding: 40px 30px 20px 0px;
-  border: 0.5px solid #8338ec;
+}
+.filterListFlex {
   display: flex;
   flex-direction: column;
   gap: 22px;
   justify-content: center;
   align-items: flex-start;
+}
+.ThirdList {
+  top: 110%;
+  left: -305%;
+  max-height: 298px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 .selectBtn {
   align-self: flex-end;
@@ -78,17 +92,14 @@
 .FirstList {
   top: 110%;
   left: -18px;
+  max-height: 274px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 .SecondList {
   top: 110%;
   left: -175%;
-}
-.ThirdList {
-  top: 110%;
-  left: -305%;
-  /* height: 298px;
-  overflow-y: auto;
-  scrollbar-width: thin; */
 }
 
 .checkIconDiv {
@@ -100,6 +111,16 @@
   justify-content: center;
   align-items: center;
 }
+.checkIconDivPurple {
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid rgba(131, 56, 236, 1);
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .checkIcon {
   width: 10.6px;
 }
@@ -111,6 +132,7 @@
   font-weight: 400;
   font-size: 16px;
   color: #212529;
+  border-radius: 5px;
 }
 .filterListItem:hover {
   cursor: pointer;
