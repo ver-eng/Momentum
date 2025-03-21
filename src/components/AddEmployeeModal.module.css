@@ -251,7 +251,8 @@
   color: #343a40;
   background-color: inherit;
 }
-.cancelBtnBelow {
+.cancelBtnBelow:hover {
+  border: 1px solid #b588f4;
   cursor: pointer;
 }
 .submitBtn {

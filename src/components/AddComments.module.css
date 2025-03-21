@@ -144,6 +144,9 @@
   font-size: 12px;
   font-family: inherit;
 }
+.replySpan:hover {
+  color: rgba(181, 136, 244, 1);
+}
 .replyauthorName {
   color: rgba(2, 21, 38, 1);
   font-weight: 500;

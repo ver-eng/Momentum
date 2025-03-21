@@ -147,7 +147,6 @@ function AddNewTask({ handleOpenModal, employees }) {
       setOpenSelect(null);
     }
   }
-
   useEffect(() => {
     if (openSelect !== null) {
       document.addEventListener("click", handleClickOutside);

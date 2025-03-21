@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import styles from "./TaskInnerPage.module.css";
 import { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -18,6 +18,7 @@ const STATUS_URL = "https://momentum.redberryinternship.ge/api/statuses";
 // /tasks/{id}
 function TaskInnerPage({ handleOpenModal, handleCloseModal, showModal }) {
   const { id: taskId } = useParams();
+
   const selectRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [statuses, setStatuses] = useState([]);
@@ -106,6 +107,7 @@ function TaskInnerPage({ handleOpenModal, handleCloseModal, showModal }) {
     "ლოჯოსტიკის დეპარტამენტი": "ლოჯისტიკა",
     "ადამიანური რესურსების დეპარტამენტი": "ად. რესურსები",
   };
+
   return (
     <section>
       <Navigation
